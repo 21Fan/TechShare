@@ -24,8 +24,11 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
 import Copyright from './components/Copyright'
+import Sidebar from "./Sidebar";
 
-
+import GitHubIcon from '@material-ui/icons/GitHub';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
 const useStyles = makeStyles((theme) => ({
     '@global': {
         ul: {
@@ -63,6 +66,16 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'baseline',
         marginBottom: theme.spacing(2),
+    },
+    blogCard:{
+
+        direction:"column",
+        // justify:"center",
+        // alignItems:"center",
+    },
+    mainGrid: {
+        marginTop: theme.spacing(3),
+        //direction:"row"
     },
     footer: {
         borderTop: `1px solid ${theme.palette.divider}`,
@@ -110,6 +123,72 @@ const tiers = [
         buttonVariant: 'outlined',
     },
 ];
+const featuredPosts = [
+    {
+        title: 'Featured post',
+        date: 'Nov 12',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Featured post',
+        date: 'Nov 12',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+    {
+        title: 'Post title',
+        date: 'Nov 11',
+        description:
+            'This is a wider card with supporting text below as a natural lead-in to additional content.',
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+    },
+];
 const footers = [
     {
         title: 'Company',
@@ -129,24 +208,72 @@ const footers = [
     },
 ];
 
+const sidebar = {
+    title: 'About',
+    description:
+        'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
+    archives: [
+        { title: 'March 2020', url: '#' },
+        { title: 'February 2020', url: '#' },
+        { title: 'January 2020', url: '#' },
+        { title: 'November 1999', url: '#' },
+        { title: 'October 1999', url: '#' },
+        { title: 'September 1999', url: '#' },
+        { title: 'August 1999', url: '#' },
+        { title: 'July 1999', url: '#' },
+        { title: 'June 1999', url: '#' },
+        { title: 'May 1999', url: '#' },
+        { title: 'April 1999', url: '#' },
+    ],
+    social: [
+        { name: 'GitHub', icon: GitHubIcon },
+        { name: 'Twitter', icon: TwitterIcon },
+        { name: 'Facebook', icon: FacebookIcon },
+    ],
+};
+
 export default function HomePage() {
     const classes = useStyles();
 
     return (
-        <React.Fragment>
+        <React.Fragment >
             <CssBaseline />
+
             <PrimarySearchAppBar/>
             <Toolbar id="back-to-top-anchor" />
 
-            <Container maxWidth="lg" component="main" className={classes.heroContent}>
-                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                    Pricing
-                </Typography>
-                <RecipeReviewCard/>
-                <Typography variant="h5" align="center" color="textSecondary" component="p">
-                    Quickly build an effective pricing table for your potential customers with this layout.
-                    It&apos;s built with default Material-UI components with little customization.
-                </Typography>
+            <Container >
+                {/*<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>*/}
+                {/*    Pricing*/}
+                {/*</Typography>*/}
+                {/*<RecipeReviewCard/>*/}
+
+                <Grid container spacing={0} >
+                    <Grid container spacing={3} xs  className={classes.blogCard}>
+
+                        {featuredPosts.map((post) => (
+                            <RecipeReviewCard key={post.title} post={post} />
+                        ))}
+                    </Grid>
+                    <Grid xs={3}>
+                        <Sidebar
+                        title={sidebar.title}
+                        description={sidebar.description}
+                        archives={sidebar.archives}
+                        social={sidebar.social}
+                        />
+                    </Grid>
+
+
+
+
+
+                </Grid>
+                {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
+                {/*    Quickly build an effective pricing table for your potential customers with this layout.*/}
+                {/*    It&apos;s built with default Material-UI components with little customization.*/}
+                {/*</Typography>*/}
+
             </Container>
             {/* End hero unit */}
             <Container maxWidth="md" component="main">
