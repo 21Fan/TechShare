@@ -24,11 +24,13 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
 import Copyright from './components/Copyright'
-import Sidebar from "./Sidebar";
+import Sidebar from "./components/Sidebar";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import SwipeableTemporaryDrawer from "./components/Drawer";
+import Pagination from "@material-ui/lab/Pagination";
 const useStyles = makeStyles((theme) => ({
     '@global': {
         ul: {
@@ -168,12 +170,15 @@ const sidebar = {
 
 function HomePageFunc(props) {
     const classes = useStyles();
-
+    const handleChangePage = (event, page) => {
+        props.getBlogs(page);
+    };
     return (
         <React.Fragment >
             <CssBaseline />
 
             <PrimarySearchAppBar/>
+
             <Toolbar id="back-to-top-anchor" />
 
             <Container >
@@ -188,6 +193,7 @@ function HomePageFunc(props) {
                         {props.blogsData.records.map((post) => (
                             <RecipeReviewCard key={post.title} post={post} />
                         ))}
+                        <Pagination count={10} color="secondary" onChange={handleChangePage}/>
                     </Grid>
                     <Grid xs={3}>
                         <Sidebar
@@ -286,91 +292,15 @@ export default class HomePage extends React.Component{
         super(props);
         this.state = {
             blogsData:{records:[]}
-                //
-                // {
-                //     title: 'Featured post',
-                //     date: 'Nov 12',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Featured post',
-                //     date: 'Nov 12',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-                // {
-                //     title: 'Post title',
-                //     date: 'Nov 11',
-                //     description:
-                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
-                //     image: 'https://source.unsplash.com/random',
-                //     imageText: 'Image Text',
-                // },
-
-
-
         };
+
     }
-    componentDidMount(){
-        fetch('http://localhost:8080/blogs',{
+    getBlogs(page){
+        console.log(page)
+        fetch('http://localhost:8080/blogs'+'?currentPage='+page
+            ,{
             method:'GET',
-            // headers:{
-            //     'Content-Type':'application/json;charset=UTF-8'
-            // },
-            // body: JSON.stringify({
-            //
-            //     username: "markerhub",
-            //
-            //     password: "111111"
-            //
-            // }),
-            // mode:'cors',
-            // cache:'default'
+
         })
             .then(res =>res.json())
             .then((body) => {
@@ -380,11 +310,16 @@ export default class HomePage extends React.Component{
                 })
             })
     }
+    componentDidMount(){
+        this.getBlogs(1)
+
+    }
     render(){
         const blogsData=this.state.blogsData
         return (
             <HomePageFunc
                 blogsData={blogsData}
+                getBlogs={this.getBlogs.bind(this)}//传给子组件
             />
         )
     }

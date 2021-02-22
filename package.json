@@ -11,6 +11,7 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "clsx": "latest",
     "prop-types": "^15.7.2",
     "react": "latest",
