@@ -9,6 +9,7 @@ import {Router, Route, Switch, HashRouter, BrowserRouter} from "react-router-dom
 import HomePage from './HomePage'
 import SignInPage from './SignInPage'
 import SignUpPage from "./SignUpPage";
+import BlogPage from "./BlogPage";
 ReactDOM.render(
   // <ThemeProvider theme={theme}>
   //   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Switch>
             <Route path="/SignUp" component={SignUpPage} />
             <Route path="/SignIn" component={SignInPage} />
+            <Route path='/blog/:id' component={BlogPage} />
             <Route path="/" component={HomePage} />
         </Switch>
     </BrowserRouter>,

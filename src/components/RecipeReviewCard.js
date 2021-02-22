@@ -19,8 +19,8 @@ import Grid from "@material-ui/core/Grid";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Tooltip from "@material-ui/core/Tooltip";
 import Paper from "@material-ui/core/Paper";
-
-const useStyles = makeStyles((theme) => ({
+import withStyles from "@material-ui/core/styles/withStyles";
+const useStyles = theme => ({
     root: {
         maxWidth: 800,
 
@@ -42,20 +42,33 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
-}));
+});
+class BlogCard extends React.Component{
+//export default function RecipeReviewCard(props) {
+    constructor(props) {
+        super(props);
+        this.state={
+            expanded:false,
 
-export default function RecipeReviewCard(props) {
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
-    const { post } = props;
+        }
+    }
+
+    render()
+{
+
+    const {classes} = this.props;
+    //const classes = this.useStyles();
+    //const [expanded, setExpanded] = React.useState(false);
+    const post  = this.props.post
+    const expanded=this.state.expanded
     const handleExpandClick = () => {
-        setExpanded(!expanded);
+        // setExpanded(!expanded);
+        this.setState({expanded:true})
     };
-
     return (
-        <Grid item xs={11} >
+        <Grid item xs={11}>
 
-            <Card elevation={5} >
+            <Card elevation={5}>
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
@@ -64,15 +77,19 @@ export default function RecipeReviewCard(props) {
                     }
                     action={
                         <IconButton aria-label="settings">
-                            <MoreVertIcon />
+                            <MoreVertIcon/>
                         </IconButton>
                     }
                     title={post.title}
                     subheader={post.date}
                 />
                 <Tooltip title="More">
-                    <CardActionArea onClick={handleExpandClick}>
+                    <CardActionArea onClick={ ()=>{
+                        this.props.history.push(
+                             '/blog/'+post.id,
 
+                        );}}>
+                        {/*<a href={"/blog"}>*/}
                         <CardMedia
                             className={classes.media}
                             //image="/static/images/cards/paella.jpg"
@@ -84,18 +101,18 @@ export default function RecipeReviewCard(props) {
                                 {post.description}
                             </Typography>
                         </CardContent>
-
+                        {/*</a>*/}
                     </CardActionArea>
                 </Tooltip>
                 <CardActions disableSpacing>
                     <Tooltip title="Favorite">
                         <IconButton aria-label="add to favorites">
-                            <FavoriteIcon />
+                            <FavoriteIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Share">
                         <IconButton aria-label="share">
-                            <ShareIcon />
+                            <ShareIcon/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="More">
@@ -107,7 +124,7 @@ export default function RecipeReviewCard(props) {
                             aria-expanded={expanded}
                             aria-label="show more"
                         >
-                            <ExpandMoreIcon />
+                            <ExpandMoreIcon/>
 
                         </IconButton>
                     </Tooltip>
@@ -143,5 +160,7 @@ export default function RecipeReviewCard(props) {
             </Card>
 
         </Grid>
-    );
+    )
 }
+}
+export default withStyles(useStyles)(BlogCard);
