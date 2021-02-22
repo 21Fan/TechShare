@@ -123,72 +123,6 @@ const tiers = [
         buttonVariant: 'outlined',
     },
 ];
-const featuredPosts = [
-    {
-        title: 'Featured post',
-        date: 'Nov 12',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Featured post',
-        date: 'Nov 12',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-    {
-        title: 'Post title',
-        date: 'Nov 11',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
-    },
-];
 const footers = [
     {
         title: 'Company',
@@ -232,7 +166,7 @@ const sidebar = {
     ],
 };
 
-export default function HomePage() {
+function HomePageFunc(props) {
     const classes = useStyles();
 
     return (
@@ -251,16 +185,16 @@ export default function HomePage() {
                 <Grid container spacing={0} >
                     <Grid container spacing={3} xs  className={classes.blogCard}>
 
-                        {featuredPosts.map((post) => (
+                        {props.blogsData.records.map((post) => (
                             <RecipeReviewCard key={post.title} post={post} />
                         ))}
                     </Grid>
                     <Grid xs={3}>
                         <Sidebar
-                        title={sidebar.title}
-                        description={sidebar.description}
-                        archives={sidebar.archives}
-                        social={sidebar.social}
+                            title={sidebar.title}
+                            description={sidebar.description}
+                            archives={sidebar.archives}
+                            social={sidebar.social}
                         />
                     </Grid>
 
@@ -346,4 +280,112 @@ export default function HomePage() {
 
         </React.Fragment>
     );
+}
+export default class HomePage extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            blogsData:{records:[]}
+                //
+                // {
+                //     title: 'Featured post',
+                //     date: 'Nov 12',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Featured post',
+                //     date: 'Nov 12',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+                // {
+                //     title: 'Post title',
+                //     date: 'Nov 11',
+                //     description:
+                //         'This is a wider card with supporting text below as a natural lead-in to additional content.',
+                //     image: 'https://source.unsplash.com/random',
+                //     imageText: 'Image Text',
+                // },
+
+
+
+        };
+    }
+    componentDidMount(){
+        fetch('http://localhost:8080/blogs',{
+            method:'GET',
+            // headers:{
+            //     'Content-Type':'application/json;charset=UTF-8'
+            // },
+            // body: JSON.stringify({
+            //
+            //     username: "markerhub",
+            //
+            //     password: "111111"
+            //
+            // }),
+            // mode:'cors',
+            // cache:'default'
+        })
+            .then(res =>res.json())
+            .then((body) => {
+                console.log(body.data.records)
+                this.setState({
+                    blogsData:body.data
+                })
+            })
+    }
+    render(){
+        const blogsData=this.state.blogsData
+        return (
+            <HomePageFunc
+                blogsData={blogsData}
+            />
+        )
+    }
 }
