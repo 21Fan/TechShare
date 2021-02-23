@@ -11,7 +11,9 @@ import post2 from './blog-post.2.md';
 import post3 from './blog-post.3.md'
 const posts = [post1, post2, post3];
 import MarkdownEditor from './MarkdownEditor'
-const useStyles = makeStyles((theme) => ({
+import Button from "@material-ui/core/Button";
+import withStyles from "@material-ui/core/styles/withStyles";
+const useStyles = theme => ({
     markdown: {
         ...theme.typography.body2,
         padding: theme.spacing(3, 0),
@@ -19,11 +21,15 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(1, 1),
     },
-}));
+})
 
-export default function Blog(props) {
-    const classes = useStyles();
-    const { blogData } = props;
+class Blog extends React.Component{
+//export default function Blog(props) {
+    //const classes = useStyles();
+    bindRef = ref => { this.MarkdownEditor = ref }
+    render(){
+    const  blogData  = this.props;
+    const {classes} = this.props
 
     return (
         // <Grid item xs={12} md={8}>
@@ -53,7 +59,8 @@ export default function Blog(props) {
 
                 <Divider />
                 <Typography>{post2}</Typography>
-                <MarkdownEditor/>
+                <MarkdownEditor triggerRef={this.bindRef} />
+                <Button onClick={()=>this.MarkdownEditor.PostMD()}>1</Button>
                 {posts.map((post) => (
                 <Markdown className={classes.markdown} key={blogData.id}>
                     {post}
@@ -63,5 +70,6 @@ export default function Blog(props) {
             </Paper>
 
         </Grid>
-    );
+    );}
 }
+export default withStyles(useStyles)(Blog)

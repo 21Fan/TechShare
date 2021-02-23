@@ -10,10 +10,14 @@ const e = React.createElement
 export default class MarkdownEditor extends React.Component {
     constructor (props) {
         super(props)
+        this.state={
+            vditor:Vditor,
+        }
     }
 
     componentDidMount () {
-        const vditor = new Vditor('vditor', {
+        this.props.triggerRef(this)
+        this.state.vditor = new Vditor('vditor', {
             height: 360,
             toolbarConfig: {
                 pin: true,
@@ -21,10 +25,15 @@ export default class MarkdownEditor extends React.Component {
             cache: {
                 enable: false,
             },
-            after () {
-                vditor.setValue('Hello, Vditor + React!')
-            },
+            // after () {
+            //     vditor.setValue('Hello, Vditor + React!')
+            // },
         })
+
+    }
+    PostMD(){
+        const editorValue=this.state.vditor.getValue();
+        console.log(editorValue)
     }
     // PostMarkdown(){
     //     const a=vditor.getValue()
