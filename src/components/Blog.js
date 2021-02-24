@@ -6,10 +6,15 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Paper from "@material-ui/core/Paper";
 import Markdown from "./Markdown";
-import post1 from './blog-post.1.md';
-import post2 from './blog-post.2.md';
-import post3 from './blog-post.3.md'
-const posts = [post1, post2, post3];
+
+const post1="# Sample blog post\n" +
+    "\n" +
+    "#### April 1, 2020 by [Olivier](/)\n" +
+    "\n" +
+    "This blog post shows a few different types of content that are supported and styled with\n" +
+    "Material styles. Basic typography, images, and code are all supported.\n" +
+    "You can extend these by modifying `Markdown.js`."
+// const posts = [post1, post2, post3];
 import MarkdownEditor from './MarkdownEditor'
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -17,6 +22,7 @@ const useStyles = theme => ({
     markdown: {
         ...theme.typography.body2,
         padding: theme.spacing(3, 0),
+        marginLeft:20
     },
     title: {
         margin: theme.spacing(1, 1),
@@ -28,9 +34,9 @@ class Blog extends React.Component{
     //const classes = useStyles();
     bindRef = ref => { this.MarkdownEditor = ref }
     render(){
-    const  blogData  = this.props;
-    const {classes} = this.props
-
+    const  blogData  = this.props.blogData;
+    const {classes} = this.props;
+    console.log(blogData.content)
     return (
         // <Grid item xs={12} md={8}>
         //     <Typography variant="h6" gutterBottom>
@@ -58,14 +64,15 @@ class Blog extends React.Component{
                 </Typography>
 
                 <Divider />
-                <Typography>{post2}</Typography>
+                {/*<Typography>{post2}</Typography>*/}
                 <MarkdownEditor triggerRef={this.bindRef} />
                 <Button onClick={()=>this.MarkdownEditor.PostMD()}>1</Button>
-                {posts.map((post) => (
-                <Markdown className={classes.markdown} key={blogData.id}>
-                    {post}
+                {/*{posts.map((post) => (*/}
+                <Markdown className={classes.markdown}>
+                    {/*{post1}*/}
+                    {blogData.content}
                 </Markdown>
-                    ))}
+                    {/*))}*/}
 
             </Paper>
 

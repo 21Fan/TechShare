@@ -33,6 +33,9 @@ import SwipeableTemporaryDrawer from "./components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
 import BlogCard from "./components/RecipeReviewCard";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Blog from "./components/Blog";
+import MarkdownEditor from "./components/MarkdownEditor";
+import Paper from "@material-ui/core/Paper";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -170,40 +173,50 @@ const sidebar = {
     ],
 };
 
-class HomePage extends React.Component{
+class NewBlogPage extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            blogsData:{records:[]}
+            blogData:{"id": 1,
+                "userId": 1,
+                "title": "生活就像海洋，只有意志坚强的人才能到达彼岸",
+                "description": "这里是摘要哈哈哈",
+                "content": "内容？？？",
+                "created": "2020-05-21T22:08:42",
+                "status": 0},
+
         };
 
     }
-    getBlogs(page){
-        console.log(page)
-        fetch('http://localhost:8080/blogs'+'?currentPage='+page
+    getBlogById(id){
+        console.log(id)
+        fetch('http://localhost:8080/blog/'+id
             ,{
                 method:'GET',
 
             })
             .then(res =>res.json())
             .then((body) => {
-                console.log(body.data.records)
+                console.log(body)
                 this.setState({
-                    blogsData:body.data
+                    blogData:body.data
                 })
             })
     }
     componentDidMount(){
-        this.getBlogs(1)
+        this.getBlogById(this.props.match.params.id)
 
     }
-    handleChangePage(event, page){
-        this.getBlogs(page);
-    }
+    // handleChangePage(event, page){
+    //     this.getBlogs(page);
+    // }
+    bindRef = ref => { this.MarkdownEditor = ref }
     render()
     {
-        const blogsData=this.state.blogsData
+        const id =this.props.match.params.id
+        //const blogsData=this.state.blogsData
         const {classes} = this.props
+
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -219,15 +232,14 @@ class HomePage extends React.Component{
                     {/*<RecipeReviewCard/>*/}
 
                     <Grid container spacing={0}>
-                        <Grid container spacing={3} xs className={classes.blogCard}>
-
-                            {blogsData.records.map((post) => (
-                                <BlogCard key={post.title} post={post} history={this.props.history}/>
-                            ))}
-                            <Pagination count={10} color="secondary" onChange={this.handleChangePage}/>
+                        <Grid xs>
+                            {/*<Typography >{id}</Typography>*/}
+                            <Grid xs={11}>
+                            <MarkdownEditor triggerRef={this.bindRef} />
+                            <Button onClick={()=>this.MarkdownEditor.PostMD()}>1</Button>
+                            </Grid>
                         </Grid>
                         <Grid xs={3}>
-                            <Button onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
                             <Sidebar
                                 title={sidebar.title}
                                 description={sidebar.description}
@@ -245,48 +257,48 @@ class HomePage extends React.Component{
 
                 </Container>
                 {/* End hero unit */}
-                <Container maxWidth="md" component="main">
-                    <Grid container spacing={5} alignItems="flex-end">
-                        {tiers.map((tier) => (
-                            // Enterprise card is full width at sm breakpoint
-                            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-                                <Card>
-                                    <CardHeader
-                                        title={tier.title}
-                                        subheader={tier.subheader}
-                                        titleTypographyProps={{align: 'center'}}
-                                        subheaderTypographyProps={{align: 'center'}}
-                                        action={tier.title === 'Pro' ? <StarIcon/> : null}
-                                        className={classes.cardHeader}
-                                    />
-                                    <CardContent>
-                                        <div className={classes.cardPricing}>
-                                            <Typography component="h2" variant="h3" color="textPrimary">
-                                                ${tier.price}
-                                            </Typography>
-                                            <Typography variant="h6" color="textSecondary">
-                                                /mo
-                                            </Typography>
-                                        </div>
-                                        <ul>
-                                            {tier.description.map((line) => (
-                                                <Typography component="li" variant="subtitle1" align="center"
-                                                            key={line}>
-                                                    {line}
-                                                </Typography>
-                                            ))}
-                                        </ul>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button fullWidth variant={tier.buttonVariant} color="primary">
-                                            {tier.buttonText}
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
+                {/*<Container maxWidth="md" component="main">*/}
+                {/*    <Grid container spacing={5} alignItems="flex-end">*/}
+                {/*        {tiers.map((tier) => (*/}
+                {/*            // Enterprise card is full width at sm breakpoint*/}
+                {/*            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>*/}
+                {/*                <Card>*/}
+                {/*                    <CardHeader*/}
+                {/*                        title={tier.title}*/}
+                {/*                        subheader={tier.subheader}*/}
+                {/*                        titleTypographyProps={{align: 'center'}}*/}
+                {/*                        subheaderTypographyProps={{align: 'center'}}*/}
+                {/*                        action={tier.title === 'Pro' ? <StarIcon/> : null}*/}
+                {/*                        className={classes.cardHeader}*/}
+                {/*                    />*/}
+                {/*                    <CardContent>*/}
+                {/*                        <div className={classes.cardPricing}>*/}
+                {/*                            <Typography component="h2" variant="h3" color="textPrimary">*/}
+                {/*                                ${tier.price}*/}
+                {/*                            </Typography>*/}
+                {/*                            <Typography variant="h6" color="textSecondary">*/}
+                {/*                                /mo*/}
+                {/*                            </Typography>*/}
+                {/*                        </div>*/}
+                {/*                        <ul>*/}
+                {/*                            {tier.description.map((line) => (*/}
+                {/*                                <Typography component="li" variant="subtitle1" align="center"*/}
+                {/*                                            key={line}>*/}
+                {/*                                    {line}*/}
+                {/*                                </Typography>*/}
+                {/*                            ))}*/}
+                {/*                        </ul>*/}
+                {/*                    </CardContent>*/}
+                {/*                    <CardActions>*/}
+                {/*                        <Button fullWidth variant={tier.buttonVariant} color="primary">*/}
+                {/*                            {tier.buttonText}*/}
+                {/*                        </Button>*/}
+                {/*                    </CardActions>*/}
+                {/*                </Card>*/}
+                {/*            </Grid>*/}
+                {/*        ))}*/}
+                {/*    </Grid>*/}
+                {/*</Container>*/}
                 {/* Footer */}
                 <Container maxWidth="md" component="footer" className={classes.footer}>
                     <Grid container spacing={4} justify="space-evenly">
@@ -318,7 +330,7 @@ class HomePage extends React.Component{
         );
     }
 }
-export default withStyles(useStyles)(HomePage)
+export default withStyles(useStyles)(NewBlogPage)
 // export default class HomePage extends React.Component{
 //     constructor(props) {
 //         super(props);

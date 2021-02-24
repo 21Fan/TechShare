@@ -10,6 +10,7 @@ import HomePage from './HomePage'
 import SignInPage from './SignInPage'
 import SignUpPage from "./SignUpPage";
 import BlogPage from "./BlogPage";
+import NewBlogPage from "./NewBlogPage";
 ReactDOM.render(
   // <ThemeProvider theme={theme}>
   //   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -19,9 +20,11 @@ ReactDOM.render(
   // </ThemeProvider>,
     <BrowserRouter >
         <Switch>
+            <Route path='/Newblog' component={NewBlogPage} />
             <Route path="/SignUp" component={SignUpPage} />
             <Route path="/SignIn" component={SignInPage} />
             <Route path='/blog/:id' component={BlogPage} />
+
             <Route path="/" component={HomePage} />
         </Switch>
     </BrowserRouter>,
