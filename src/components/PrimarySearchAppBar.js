@@ -134,8 +134,8 @@ class PrimarySearchAppBar extends React.Component{
                 open={isMenuOpen}
                 onClose={handleMenuClose}
             >
-                <MenuItem onClick={handleMenuClose}> <a href='/SignIn'>登录</a></MenuItem>
-                <MenuItem onClick={handleMenuClose}><a href='/SignUp'>注册</a></MenuItem>
+                <MenuItem onClick={handleMenuClose}><Button onClick={()=>this.props.history.push('/SignIn')}>登录</Button></MenuItem>
+                <MenuItem onClick={handleMenuClose}><Button onClick={()=>this.props.history.push('/SignUp')}>注册</Button></MenuItem>
             </Menu>
         );
 

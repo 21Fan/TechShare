@@ -42,12 +42,13 @@ export default class MarkdownEditor extends React.Component {
     }
     PostMD(){
         const editorValue=this.state.vditor.getValue();
+        console.log(JSON.parse(localStorage.getItem("jwt")).jwt)
         fetch('http://localhost:8080/blog/edit'
             ,{
                 method:'POST',
                 headers:{
                     'content-type':'application/json',
-                    'Authorization':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjE0MDg3MzAyLCJleHAiOjE2MTQ2OTIxMDJ9.oDY2o4VfbA3it4aFwu3O-bqNDqN2PB4peO6Nx-fBheIGLOIfkr-c1i1Ahq8PCiiHloOPLeJ2QfGsSb8ZhWJmFw'
+                    'Authorization':JSON.parse(localStorage.getItem("jwt")).jwt
                 },
                 body:JSON.stringify({
                     "title":"title",

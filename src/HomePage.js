@@ -33,6 +33,7 @@ import SwipeableTemporaryDrawer from "./components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
 import BlogCard from "./components/RecipeReviewCard";
 import withStyles from "@material-ui/core/styles/withStyles";
+import AxiosInterceptors from "./axios";
 const useStyles = theme => ({
     '@global': {
         ul: {

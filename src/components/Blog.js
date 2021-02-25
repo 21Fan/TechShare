@@ -65,8 +65,8 @@ class Blog extends React.Component{
 
                 <Divider />
                 {/*<Typography>{post2}</Typography>*/}
-                <MarkdownEditor triggerRef={this.bindRef} />
-                <Button onClick={()=>this.MarkdownEditor.PostMD()}>1</Button>
+                {/*<MarkdownEditor triggerRef={this.bindRef} />*/}
+                {/*<Button onClick={()=>this.MarkdownEditor.PostMD()}>1</Button>*/}
                 {/*{posts.map((post) => (*/}
                 <Markdown className={classes.markdown}>
                     {/*{post1}*/}
