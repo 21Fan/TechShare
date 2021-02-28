@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import HideAppBar from "./components/Header";
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import RecipeReviewCard from "./components/RecipeReviewCard";
+import RecipeReviewCard from "./components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import BackToTop from './components/BackToTop'
@@ -31,9 +31,16 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import SwipeableTemporaryDrawer from "./components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
-import BlogCard from "./components/RecipeReviewCard";
+import BlogCard from "./components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AxiosInterceptors from "./axios";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import axios from 'axios';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -91,6 +98,11 @@ const useStyles = theme => ({
             paddingTop: theme.spacing(6),
             paddingBottom: theme.spacing(6),
         },
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+        direction:"row",
     },
 });
 
@@ -175,35 +187,68 @@ class HomePage extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            blogsData:{records:[]}
+            blogsData:{"records":[],"pages":1},
+            //myblogChecked:false,
+            blogsMode:1,
+            selectName:'',
+            OrderBy:"created",
+            OrderMode:"Desc",
+            gotData:false,
+
         };
 
     }
-    getBlogs(page){
-        console.log(page)
-        fetch('http://localhost:8080/blogs'+'?currentPage='+page
+    getBlogs(page,mode,OrderBy,OrderMode){
+        console.log("page:",page)
+        fetch('http://localhost:8080/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
             ,{
                 method:'GET',
+                headers:{
+                    "Authorization":JSON.parse(localStorage.getItem("jwt")).jwt
+                }
 
             })
             .then(res =>res.json())
             .then((body) => {
-                console.log(body.data.records)
-                this.setState({
-                    blogsData:body.data
-                })
+                console.log(body.data)
+                if(body.data)
+                    this.setState({
+                        blogsData:body.data,
+                        gotData:true
+
+                    })
             })
     }
     componentDidMount(){
-        this.getBlogs(1)
+        this.getBlogs(1,1,"created","Desc")
 
     }
-    handleChangePage(event, page){
-        this.getBlogs(page);
+    PageChange=(event, page)=>{
+        console.log("page:",page)
+        this.getBlogs(page,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode)
     }
+    blogsModeMenuChange = (event) => {
+        this.setState({ blogsMode: event.target.value },()=>{
+            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+        });//更改按钮状态
+
+    };
+    OrderByMenuChange = (event) => {
+        this.setState({ OrderBy: event.target.value },()=>{
+            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+        });//更改按钮状态
+
+    };
+    OrderModeMenuChange = (event) => {
+        this.setState({ OrderMode: event.target.value },()=>{
+            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+        });//更改按钮状态
+
+    };
+
     render()
     {
-        const blogsData=this.state.blogsData
+        // const blogsData=this.state.blogsData
         const {classes} = this.props
         return (
             <React.Fragment>
@@ -221,11 +266,68 @@ class HomePage extends React.Component{
 
                     <Grid container spacing={0}>
                         <Grid container spacing={3} xs className={classes.blogCard}>
+                            {/*<FormControlLabel*/}
+                            {/*    control={<Checkbox checked={this.state.myblogChecked} onChange={this.CheckboxChange} name="myblogChecked" />}*/}
+                            {/*    label="MY BLOGS"*/}
+                            {/*/>*/}
+                            <Grid className={classes.formControl}>
+                                <Grid ms={3}>
+                                    <InputLabel id="demo-simple-select-label">Selector</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        //native
+                                        value={this.state.blogsMode}
+                                        onChange={this.blogsModeMenuChange}
+                                    >
+                                        <MenuItem value={1}>All</MenuItem>
+                                        <MenuItem value={2}>Mine</MenuItem>
+                                        <MenuItem value={3}>Others</MenuItem>
+                                        {/*<MenuItem value={2}>My Blogs</MenuItem>*/}
 
-                            {blogsData.records.map((post) => (
-                                <BlogCard key={post.title} post={post} history={this.props.history}/>
+                                    </Select>
+                                </Grid>
+                                <Grid ms={3}>
+                                    <InputLabel id="demo-simple-select-label">OrderBy</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        //native
+                                        value={this.state.OrderBy}
+                                        onChange={this.OrderByMenuChange}
+                                    >
+                                        <MenuItem value="created">Created Time</MenuItem>
+                                        <MenuItem value="title">Title</MenuItem>
+                                        <MenuItem value="user_id">User Id</MenuItem>
+                                        <MenuItem value="id">Blog Id</MenuItem>
+                                        <MenuItem value="description">Description</MenuItem>
+                                        <MenuItem value="content">Content</MenuItem>
+                                        {/*id,created,description,title,user_id,content*/}
+                                        {/*<MenuItem value={2}>My Blogs</MenuItem>*/}
+
+                                    </Select>
+                                </Grid>
+                                <Grid ms={3}>
+                                    <InputLabel id="demo-simple-select-label">OrderMode</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        //native
+                                        value={this.state.OrderMode}
+                                        onChange={this.OrderModeMenuChange}
+                                    >
+                                        <MenuItem value="Desc">Desc</MenuItem>
+                                        <MenuItem value="Asc">Asc</MenuItem>
+                                        {/*<MenuItem value={2}>My Blogs</MenuItem>*/}
+
+                                    </Select>
+                                </Grid>
+                            </Grid>
+
+                            {this.state.blogsData.records.map((post) => (
+                                <BlogCard key={post.id} post={post} history={this.props.history}/>
                             ))}
-                            <Pagination count={10} color="secondary" onChange={this.handleChangePage}/>
+                            <Pagination count={this.state.blogsData.pages} color="secondary" onChange={this.PageChange}/>
                         </Grid>
                         <Grid xs={3}>
                             <Button onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
@@ -246,48 +348,48 @@ class HomePage extends React.Component{
 
                 </Container>
                 {/* End hero unit */}
-                <Container maxWidth="md" component="main">
-                    <Grid container spacing={5} alignItems="flex-end">
-                        {tiers.map((tier) => (
-                            // Enterprise card is full width at sm breakpoint
-                            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-                                <Card>
-                                    <CardHeader
-                                        title={tier.title}
-                                        subheader={tier.subheader}
-                                        titleTypographyProps={{align: 'center'}}
-                                        subheaderTypographyProps={{align: 'center'}}
-                                        action={tier.title === 'Pro' ? <StarIcon/> : null}
-                                        className={classes.cardHeader}
-                                    />
-                                    <CardContent>
-                                        <div className={classes.cardPricing}>
-                                            <Typography component="h2" variant="h3" color="textPrimary">
-                                                ${tier.price}
-                                            </Typography>
-                                            <Typography variant="h6" color="textSecondary">
-                                                /mo
-                                            </Typography>
-                                        </div>
-                                        <ul>
-                                            {tier.description.map((line) => (
-                                                <Typography component="li" variant="subtitle1" align="center"
-                                                            key={line}>
-                                                    {line}
-                                                </Typography>
-                                            ))}
-                                        </ul>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button fullWidth variant={tier.buttonVariant} color="primary">
-                                            {tier.buttonText}
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
+                {/*<Container maxWidth="md" component="main">*/}
+                {/*    <Grid container spacing={5} alignItems="flex-end">*/}
+                {/*        {tiers.map((tier) => (*/}
+                {/*            // Enterprise card is full width at sm breakpoint*/}
+                {/*            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>*/}
+                {/*                <Card>*/}
+                {/*                    <CardHeader*/}
+                {/*                        title={tier.title}*/}
+                {/*                        subheader={tier.subheader}*/}
+                {/*                        titleTypographyProps={{align: 'center'}}*/}
+                {/*                        subheaderTypographyProps={{align: 'center'}}*/}
+                {/*                        action={tier.title === 'Pro' ? <StarIcon/> : null}*/}
+                {/*                        className={classes.cardHeader}*/}
+                {/*                    />*/}
+                {/*                    <CardContent>*/}
+                {/*                        <div className={classes.cardPricing}>*/}
+                {/*                            <Typography component="h2" variant="h3" color="textPrimary">*/}
+                {/*                                ${tier.price}*/}
+                {/*                            </Typography>*/}
+                {/*                            <Typography variant="h6" color="textSecondary">*/}
+                {/*                                /mo*/}
+                {/*                            </Typography>*/}
+                {/*                        </div>*/}
+                {/*                        <ul>*/}
+                {/*                            {tier.description.map((line) => (*/}
+                {/*                                <Typography component="li" variant="subtitle1" align="center"*/}
+                {/*                                            key={line}>*/}
+                {/*                                    {line}*/}
+                {/*                                </Typography>*/}
+                {/*                            ))}*/}
+                {/*                        </ul>*/}
+                {/*                    </CardContent>*/}
+                {/*                    <CardActions>*/}
+                {/*                        <Button fullWidth variant={tier.buttonVariant} color="primary">*/}
+                {/*                            {tier.buttonText}*/}
+                {/*                        </Button>*/}
+                {/*                    </CardActions>*/}
+                {/*                </Card>*/}
+                {/*            </Grid>*/}
+                {/*        ))}*/}
+                {/*    </Grid>*/}
+                {/*</Container>*/}
                 {/* Footer */}
                 <Container maxWidth="md" component="footer" className={classes.footer}>
                     <Grid container spacing={4} justify="space-evenly">

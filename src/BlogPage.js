@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import HideAppBar from "./components/Header";
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import RecipeReviewCard from "./components/RecipeReviewCard";
+import RecipeReviewCard from "./components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import BackToTop from './components/BackToTop'
@@ -31,7 +31,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import SwipeableTemporaryDrawer from "./components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
-import BlogCard from "./components/RecipeReviewCard";
+import BlogCard from "./components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Blog from "./components/Blog";
 const useStyles = theme => ({

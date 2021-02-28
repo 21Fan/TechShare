@@ -54,7 +54,7 @@ class SignInPage extends React.Component {
                 console.log(jwt);
                 const jwtExpire = {
                     jwt,
-                    expire: new Date().getTime() + 10000
+                    expire: new Date().getTime() + 86400
                 };
                 localStorage.setItem("jwt", JSON.stringify(jwtExpire))
                 localStorage.setItem("userData", JSON.stringify(res.data.data))
@@ -93,7 +93,7 @@ class SignInPage extends React.Component {
                             name="username"
                             autoComplete="username"
                             autoFocus
-                            value={"markerhub"}
+                            //value={"markerhub"}
                             // onChange={this.usernameChange}
                             // ref='username'
                         />

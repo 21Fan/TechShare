@@ -80,8 +80,9 @@ class BlogCard extends React.Component{
                             <MoreVertIcon/>
                         </IconButton>
                     }
-                    title={post.title}
-                    subheader={post.date}
+
+                    title={post.userId}
+                    subheader={post.created}
                 />
                 <Tooltip title="More">
                     <CardActionArea onClick={ ()=>{
@@ -97,6 +98,9 @@ class BlogCard extends React.Component{
                             title={post.imageText}
                         />
                         <CardContent>
+                            <Typography variant="body2" component="p">
+                                {post.title}
+                            </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                                 {post.description}
                             </Typography>
