@@ -39,7 +39,8 @@ class SignInPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blogsData: {records: []}
+            blogsData: {records: []},
+            RememberMe:false
         };
     }
     SignInClick= () => {
@@ -52,14 +53,21 @@ class SignInPage extends React.Component {
 
                 const jwt=res.headers['authorization']
                 console.log(jwt);
+                let expireTime=86400;
+                if (this.state.RememberMe)
+                {
+                    expireTime=604800;
+                }
+                console.log(expireTime);
                 const jwtExpire = {
                     jwt,
-                    expire: new Date().getTime() + 86400
+                    expire: new Date().getTime() + expireTime
                 };
                 localStorage.setItem("jwt", JSON.stringify(jwtExpire))
                 localStorage.setItem("userData", JSON.stringify(res.data.data))
+                console.log(JSON.parse(localStorage.getItem("userData")).avatar);
                 this.props.history.replace('/')
-                //console.log(localStorage.getItem("userData"));
+
 
             })
         //console.log(document.getElementById('username').value)
@@ -67,6 +75,9 @@ class SignInPage extends React.Component {
     // usernameChange(event){
     //
     // }
+    RememberMeCheck=(event)=>{
+        this.setState({RememberMe:event.target.checked})
+    }
     render()
     {
         const {classes} = this.props
@@ -112,7 +123,7 @@ class SignInPage extends React.Component {
 
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary"/>}
+                            control={<Checkbox value="remember" color="primary" onChange={this.RememberMeCheck}/>}
                             label="Remember me"
                         />
                         <Button

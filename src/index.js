@@ -14,6 +14,7 @@ import NewBlogPage from "./NewBlogPage";
 import axios from "axios";
 import './axios'
 import AxiosInterceptors from "./axios";
+import EditBlogPage from "./EditBlogPage";
 ReactDOM.render(
   // <ThemeProvider theme={theme}>
   //   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -29,7 +30,7 @@ ReactDOM.render(
             <Route path="/SignUp" component={SignUpPage} />
             <Route path="/SignIn" component={SignInPage} />
             <Route path='/blog/:id' component={BlogPage} />
-
+            <Route path='/EditBlog/:id' component={EditBlogPage} />
             <Route path="/" component={HomePage} />
         </Switch>
     </BrowserRouter>

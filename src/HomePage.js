@@ -160,7 +160,7 @@ const footers = [
 ];
 
 const sidebar = {
-    title: 'About',
+    title: 'Notification',
     description:
         'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
     archives: [
@@ -254,7 +254,7 @@ class HomePage extends React.Component{
             <React.Fragment>
                 <CssBaseline/>
 
-                <PrimarySearchAppBar history={ this.props.history }/>
+                <PrimarySearchAppBar history={ this.props.history } />
 
                 <Toolbar id="back-to-top-anchor"/>
 

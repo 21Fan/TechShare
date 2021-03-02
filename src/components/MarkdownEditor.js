@@ -40,7 +40,7 @@ export default class MarkdownEditor extends React.Component {
         })
 
     }
-    PostMD(){
+    PostMD(id){
         const editorValue=this.state.vditor.getValue();
         console.log(JSON.parse(localStorage.getItem("jwt")).jwt)
         fetch('http://localhost:8080/blog/edit'
@@ -51,6 +51,7 @@ export default class MarkdownEditor extends React.Component {
                     'Authorization':JSON.parse(localStorage.getItem("jwt")).jwt
                 },
                 body:JSON.stringify({
+                    "id":id,
                     "title":"title",
                     "description":"description",
                     "content": editorValue

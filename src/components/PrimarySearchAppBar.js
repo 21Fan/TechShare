@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import SwipeableTemporaryDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = theme => ({
     grow: {
@@ -173,7 +174,8 @@ class PrimarySearchAppBar extends React.Component{
                         aria-haspopup="true"
                         color="inherit"
                     >
-                        <AccountCircle />
+                        {/*<AccountCircle />*/}
+                        <Avatar alt="Remy Sharp" src={JSON.parse(localStorage.getItem("userData")).avatar} />
                     </IconButton>
                     <p>Profile</p>
                 </MenuItem>
@@ -225,7 +227,8 @@ class PrimarySearchAppBar extends React.Component{
                                 onClick={handleProfileMenuOpen}
                                 color="inherit"
                             >
-                                <AccountCircle/>
+                                {/*<AccountCircle/>*/}
+                                <Avatar alt="Remy Sharp" src={JSON.parse(localStorage.getItem("userData")).avatar} />
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>

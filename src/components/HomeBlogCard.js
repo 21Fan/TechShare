@@ -20,6 +20,9 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import Tooltip from "@material-ui/core/Tooltip";
 import Paper from "@material-ui/core/Paper";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 const useStyles = theme => ({
     root: {
         maxWidth: 800,
@@ -49,6 +52,7 @@ class BlogCard extends React.Component{
         super(props);
         this.state={
             expanded:false,
+            openCardHeaderMenu:null,
 
         }
     }
@@ -60,11 +64,24 @@ class BlogCard extends React.Component{
     //const classes = this.useStyles();
     //const [expanded, setExpanded] = React.useState(false);
     const post  = this.props.post
-    const expanded=this.state.expanded
+    const {expanded,openCardHeaderMenu}=this.state
     const handleExpandClick = () => {
         // setExpanded(!expanded);
-        this.setState({expanded:true})
+        this.setState({expanded:!expanded})
     };
+
+    const handleMenuClick = (event) => {
+        this.setState({openCardHeaderMenu:event.currentTarget});
+    };
+    // const [openCardHeaderMenu, setopenCardHeaderMenu] = React.useState(null);
+    const handleCardMenuClose = () => {
+        this.setState({openCardHeaderMenu:null});
+    };
+    const CardMenuEdit = () => {
+        handleCardMenuClose();
+        this.props.history.push('/EditBlog/'+post.id)
+    };
+    // const openCardHeaderMenu=this.state.openCardHeaderMenu
     return (
         <Grid item xs={11}>
 
@@ -76,9 +93,25 @@ class BlogCard extends React.Component{
                         </Avatar>
                     }
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon/>
-                        </IconButton>
+                        <div>
+                            <IconButton aria-label="settings" onClick={handleMenuClick}>
+                                <MoreVertIcon/>
+                            </IconButton>
+                            {/*<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>*/}
+                            {/*    Open Menu*/}
+                            {/*</Button>*/}
+                            <Menu
+                            id="simple-menu"
+                            anchorEl={openCardHeaderMenu}
+                            keepMounted
+                            open={Boolean(openCardHeaderMenu)}
+                            onClose={handleCardMenuClose}
+                            >
+                                <MenuItem onClick={CardMenuEdit}>Edit</MenuItem>
+                                <MenuItem onClick={handleCardMenuClose}>My account</MenuItem>
+                                <MenuItem onClick={handleCardMenuClose}>Logout</MenuItem>
+                            </Menu>
+                        </div>
                     }
 
                     title={post.userId}
