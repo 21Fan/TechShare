@@ -273,7 +273,7 @@ class EditBlogPage extends React.Component{
                             />
                             <Blog blogData={this.state.blogData}/>
                             <Grid xs={11}>
-                            <MarkdownEditor triggerRef={this.bindRef} content={data.content}/>
+                            <MarkdownEditor triggerRef={this.bindRef} content={data.content} history={ this.props.history }/>
                             <Button onClick={()=>this.MarkdownEditor.PostMD(id,data.title,data.description)}>Submit</Button>
                             </Grid>
                         </Grid>

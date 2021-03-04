@@ -86,6 +86,8 @@ export default class MarkdownEditor extends React.Component {
                 }
             })
         console.log(editorValue)
+        setTimeout(()=>this.props.history.push('/'),1000);
+
     }
     // PostMarkdown(){
     //     const a=vditor.getValue()

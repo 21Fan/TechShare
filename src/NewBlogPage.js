@@ -267,7 +267,7 @@ class NewBlogPage extends React.Component{
                                 onChange={this.descriptionChange}
                             />
                             <Grid xs={11}>
-                            <MarkdownEditor triggerRef={this.bindRef} content={""}/>
+                            <MarkdownEditor triggerRef={this.bindRef} content={""} history={ this.props.history }/>
                             <Button onClick={()=>this.MarkdownEditor.PostMD(null,data.title,data.description)}>Submit</Button>
                             </Grid>
                         </Grid>
