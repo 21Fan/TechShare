@@ -36,6 +36,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Blog from "./components/Blog";
 import MarkdownEditor from "./components/MarkdownEditor";
 import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -210,13 +211,23 @@ class NewBlogPage extends React.Component{
     // handleChangePage(event, page){
     //     this.getBlogs(page);
     // }
+    titleChange=(event)=>{
+        let prevData=this.state.blogData
+        let data = Object.assign({}, prevData, { title: event.target.value })
+        this.setState({blogData:data})
+    }
+    descriptionChange=(event)=>{
+        let prevData=this.state.blogData
+        let data = Object.assign({}, prevData, { description: event.target.value })
+        this.setState({blogData:data})
+    }
     bindRef = ref => { this.MarkdownEditor = ref }
     render()
     {
         const id =this.props.match.params.id
         //const blogsData=this.state.blogsData
         const {classes} = this.props
-
+        let data=this.state.blogData
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -234,9 +245,30 @@ class NewBlogPage extends React.Component{
                     <Grid container spacing={0}>
                         <Grid xs>
                             {/*<Typography >{id}</Typography>*/}
+                            <Typography variant="h2" color="textPrimary" gutterBottom>
+                                New Blog
+                            </Typography>
+                            <TextField
+                                id="outlined-textarea-title"
+                                label="Title"
+                                placeholder="Placeholder"
+                                multiline
+                                variant="outlined"
+                                // value={this.state.blogData.title}
+                                onChange={this.titleChange}
+                            />
+                            <TextField
+                                id="outlined-textarea-description"
+                                label="Description"
+                                placeholder="Placeholder"
+                                multiline
+                                variant="outlined"
+                                // value={this.state.blogData.description}
+                                onChange={this.descriptionChange}
+                            />
                             <Grid xs={11}>
-                            <MarkdownEditor triggerRef={this.bindRef} />
-                            <Button onClick={()=>this.MarkdownEditor.PostMD(null)}>Submit</Button>
+                            <MarkdownEditor triggerRef={this.bindRef} content={""}/>
+                            <Button onClick={()=>this.MarkdownEditor.PostMD(null,data.title,data.description)}>Submit</Button>
                             </Grid>
                         </Grid>
                         <Grid xs={3}>

@@ -336,7 +336,7 @@ class HomePage extends React.Component{
                             <Pagination count={this.state.blogsData.pages} color="secondary" onChange={this.PageChange}/>
                         </Grid>
                         <Grid xs={3}>
-                            <Button onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
+                            <Button variant="contained" onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
                             <Sidebar
                                 title={sidebar.title}
                                 description={sidebar.description}

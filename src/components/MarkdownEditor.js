@@ -19,14 +19,18 @@ export default class MarkdownEditor extends React.Component {
             open:false,
             severity:"",
             msg:"",
-            data:null,
+            content:this.props.content,
 
         }
     }
-
+    // intialValue(){
+    //     this.state.vditor.setValue('Hello')
+    // }
     componentDidMount () {
         this.props.triggerRef(this)
-        this.state.vditor = new Vditor('vditor', {
+        const content=this.state.content
+        console.log(content)
+        const vditor = new Vditor('vditor', {
             height: 360,
             toolbarConfig: {
                 pin: true,
@@ -34,13 +38,16 @@ export default class MarkdownEditor extends React.Component {
             cache: {
                 enable: false,
             },
-            // after () {
-            //     vditor.setValue('Hello, Vditor + React!')
-            // },
+            after () {
+                vditor.setValue(content)
+            },
         })
+        this.state.vditor = vditor
+        // this.intialValue()
+
 
     }
-    PostMD(id){
+    PostMD(id,title,description){
         const editorValue=this.state.vditor.getValue();
         console.log(JSON.parse(localStorage.getItem("jwt")).jwt)
         fetch('http://localhost:8080/blog/edit'
@@ -52,8 +59,8 @@ export default class MarkdownEditor extends React.Component {
                 },
                 body:JSON.stringify({
                     "id":id,
-                    "title":"title",
-                    "description":"description",
+                    "title":title,
+                    "description":description,
                     "content": editorValue
                 })
 

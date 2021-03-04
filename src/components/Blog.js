@@ -59,8 +59,11 @@ class Blog extends React.Component{
                 {/*    defaultValue="Default Value"*/}
                 {/*    variant="outlined"*/}
                 {/*/>*/}
-                <Typography variant="h6" gutterBottom className={classes.title}>
+                <Typography variant="h3" gutterBottom className={classes.title}>
                     {blogData.title}
+                </Typography>
+                <Typography variant="h5" gutterBottom className={classes.title}>
+                    {blogData.description}
                 </Typography>
 
                 <Divider />
