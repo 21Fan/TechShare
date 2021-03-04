@@ -194,6 +194,7 @@ class HomePage extends React.Component{
             OrderBy:"created",
             OrderMode:"Desc",
             gotData:false,
+            pageNow:1,
 
         };
 
@@ -223,25 +224,30 @@ class HomePage extends React.Component{
         this.getBlogs(1,1,"created","Desc")
 
     }
+    RefreshBlogs(){
+        console.log("刷新主页")
+        this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+    }
     PageChange=(event, page)=>{
         console.log("page:",page)
+        this.setState({ pageNow: page})
         this.getBlogs(page,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode)
     }
     blogsModeMenuChange = (event) => {
         this.setState({ blogsMode: event.target.value },()=>{
-            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
         });//更改按钮状态
 
     };
     OrderByMenuChange = (event) => {
         this.setState({ OrderBy: event.target.value },()=>{
-            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
         });//更改按钮状态
 
     };
     OrderModeMenuChange = (event) => {
         this.setState({ OrderMode: event.target.value },()=>{
-            this.getBlogs(1,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
         });//更改按钮状态
 
     };
@@ -325,7 +331,7 @@ class HomePage extends React.Component{
                             </Grid>
 
                             {this.state.blogsData.records.map((post) => (
-                                <BlogCard key={post.id} post={post} history={this.props.history}/>
+                                <BlogCard key={post.id} post={post} history={this.props.history} RefreshBlogs={this.RefreshBlogs.bind(this)}/>
                             ))}
                             <Pagination count={this.state.blogsData.pages} color="secondary" onChange={this.PageChange}/>
                         </Grid>

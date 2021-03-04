@@ -191,7 +191,7 @@ class PrimarySearchAppBar extends React.Component{
                         <SwipeableTemporaryDrawer anchor={'left'}/>
                         <Button onClick={() => this.props.history.push('/')}>
                             <Typography className={classes.title} variant="h6" noWrap>
-                                Material-UI
+                                TechShare
                             </Typography>
                         </Button>
                         <div className={classes.search}>
@@ -227,8 +227,8 @@ class PrimarySearchAppBar extends React.Component{
                                 onClick={handleProfileMenuOpen}
                                 color="inherit"
                             >
-                                {/*<AccountCircle/>*/}
-                                <Avatar alt="Remy Sharp" src={JSON.parse(localStorage.getItem("userData")).avatar} />
+                                <AccountCircle/>
+                                {/*<Avatar alt="Remy Sharp" src={JSON.parse(localStorage.getItem("userData")).avatar} />*/}
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>

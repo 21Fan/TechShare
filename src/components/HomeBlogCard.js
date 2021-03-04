@@ -23,6 +23,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 const useStyles = theme => ({
     root: {
         maxWidth: 800,
@@ -81,6 +82,24 @@ class BlogCard extends React.Component{
         handleCardMenuClose();
         this.props.history.push('/EditBlog/'+post.id)
     };
+    const CardMenuDelete = () => {
+        console.log("post.id ",post.id )
+        handleCardMenuClose();
+        axios.get('http://localhost:8080/removeBlog', {
+            params: { 'blogId': post.id },
+            headers:{
+                'content-type':'application/json',
+                'Authorization':JSON.parse(localStorage.getItem("jwt")).jwt
+            },
+
+        }).then((res)=>{
+            this.props.RefreshBlogs()
+        })
+
+
+
+
+    };
     // const openCardHeaderMenu=this.state.openCardHeaderMenu
     return (
         <Grid item xs={11}>
@@ -108,7 +127,7 @@ class BlogCard extends React.Component{
                             onClose={handleCardMenuClose}
                             >
                                 <MenuItem onClick={CardMenuEdit}>Edit</MenuItem>
-                                <MenuItem onClick={handleCardMenuClose}>My account</MenuItem>
+                                <MenuItem onClick={CardMenuDelete}>Delete</MenuItem>
                                 <MenuItem onClick={handleCardMenuClose}>Logout</MenuItem>
                             </Menu>
                         </div>
