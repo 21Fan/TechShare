@@ -201,7 +201,7 @@ class HomePage extends React.Component{
     }
     getBlogs(page,mode,OrderBy,OrderMode){
         console.log("page:",page)
-        fetch('http://localhost:8080/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
+        fetch('http://localhost:8081/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
             ,{
                 method:'GET',
                 headers:{

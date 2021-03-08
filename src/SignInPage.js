@@ -45,7 +45,7 @@ class SignInPage extends React.Component {
     }
     SignInClick= () => {
         console.log(document.getElementById('username').value)
-        axios.post('http://localhost:8080/login', {
+        axios.post('login', {
             username:document.getElementById('username').value,
             password:document.getElementById('password').value
         })

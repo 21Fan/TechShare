@@ -85,7 +85,7 @@ class BlogCard extends React.Component{
     const CardMenuDelete = () => {
         console.log("post.id ",post.id )
         handleCardMenuClose();
-        axios.get('http://localhost:8080/removeBlog', {
+        axios.get('removeBlog', {
             params: { 'blogId': post.id },
             headers:{
                 'content-type':'application/json',

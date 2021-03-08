@@ -18,6 +18,7 @@ const post1="# Sample blog post\n" +
 import MarkdownEditor from './MarkdownEditor'
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
+import CustomizedTimeline from "./TimeLine";
 const useStyles = theme => ({
     markdown: {
         ...theme.typography.body2,
@@ -62,6 +63,7 @@ class Blog extends React.Component{
                 <Typography variant="h3" gutterBottom className={classes.title}>
                     {blogData.title}
                 </Typography>
+                <Divider />
                 <Typography variant="h5" gutterBottom className={classes.title}>
                     {blogData.description}
                 </Typography>
@@ -75,6 +77,7 @@ class Blog extends React.Component{
                     {/*{post1}*/}
                     {blogData.content}
                 </Markdown>
+                <CustomizedTimeline></CustomizedTimeline>
                     {/*))}*/}
 
             </Paper>
