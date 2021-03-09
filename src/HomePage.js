@@ -41,6 +41,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Avatar from "@material-ui/core/Avatar";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -200,12 +202,18 @@ class HomePage extends React.Component{
 
     }
     getBlogs(page,mode,OrderBy,OrderMode){
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+
         console.log("page:",page)
-        fetch('http://localhost:8081/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
+        fetch('http://1.15.141.72:8081/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
             ,{
                 method:'GET',
                 headers:{
-                    "Authorization":JSON.parse(localStorage.getItem("jwt")).jwt
+
+                        "Authorization":(userJwt==null)?null
+                            :userJwt.jwt
+
+
                 }
 
             })

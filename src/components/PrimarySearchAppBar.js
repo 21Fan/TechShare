@@ -140,7 +140,7 @@ class PrimarySearchAppBar extends React.Component{
             </Menu>
         );
 
-        const userAvatar = JSON.parse(localStorage.getItem("userData")).avatar;
+        const userData = JSON.parse(localStorage.getItem("userData"));
         const mobileMenuId = 'primary-search-account-menu-mobile';
         const renderMobileMenu = (
             <Menu
@@ -175,13 +175,12 @@ class PrimarySearchAppBar extends React.Component{
                         aria-haspopup="true"
                         color="inherit"
                     >
-                        {/*<AccountCircle />*/}
+
                         {
-                            (userAvatar==null)?<Avatar alt="Remy Sharp" src={userAvatar} />
+                            (userData!=null)?<Avatar alt="Remy Sharp" src={userData.avatar} />
                             :<AccountCircle />
                         }
-                        {/*if(userAvatar!=null) { <Avatar alt="Remy Sharp" src={userAvatar} />}*/}
-                        {/*else <AccountCircle />*/}
+
                     </IconButton>
                     <p>Profile</p>
                 </MenuItem>
@@ -234,10 +233,9 @@ class PrimarySearchAppBar extends React.Component{
                                 color="inherit"
                             >
                                 {
-                                    (userAvatar==null)?<Avatar alt="Remy Sharp" src={userAvatar} />
+                                    (userData!=null)?<Avatar alt="Remy Sharp" src={userData.avatar} />
                                         :<AccountCircle />
                                 }
-                                {/*<Avatar alt="Remy Sharp" src={JSON.parse(localStorage.getItem("userData")).avatar} />*/}
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>
