@@ -43,6 +43,12 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import {sidebarValue} from './components/Sidebar';
+import Menu from "@material-ui/core/Menu";
+import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
+import MailIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -104,7 +110,13 @@ const useStyles = theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-        direction:"row",
+        direction:"col",
+    },
+    sidebarDesktop:{
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
     },
 });
 
@@ -161,29 +173,6 @@ const footers = [
     },
 ];
 
-const sidebar = {
-    title: 'Notification',
-    description:
-        'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-    archives: [
-        { title: 'March 2020', url: '#' },
-        { title: 'February 2020', url: '#' },
-        { title: 'January 2020', url: '#' },
-        { title: 'November 1999', url: '#' },
-        { title: 'October 1999', url: '#' },
-        { title: 'September 1999', url: '#' },
-        { title: 'August 1999', url: '#' },
-        { title: 'July 1999', url: '#' },
-        { title: 'June 1999', url: '#' },
-        { title: 'May 1999', url: '#' },
-        { title: 'April 1999', url: '#' },
-    ],
-    social: [
-        { name: 'GitHub', icon: GitHubIcon },
-        { name: 'Twitter', icon: TwitterIcon },
-        { name: 'Facebook', icon: FacebookIcon },
-    ],
-};
 
 class HomePage extends React.Component{
     constructor(props) {
@@ -205,27 +194,28 @@ class HomePage extends React.Component{
         const userJwt = JSON.parse(localStorage.getItem("jwt"));
 
         console.log("page:",page)
-        fetch('http://1.15.141.72:8081/blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
+        axios.get('blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
             ,{
-                method:'GET',
+
                 headers:{
 
-                        "Authorization":(userJwt==null)?null
+                        "Authorization":(userJwt==null)?''
                             :userJwt.jwt
 
 
                 }
 
             })
-            .then(res =>res.json())
+            //.then(res =>JSON.stringify(res))
             .then((body) => {
-                console.log(body.data)
+
+                console.log(body.data.data)
                 if(body.data)
                     this.setState({
-                        blogsData:body.data,
+                        blogsData:body.data.data,
                         gotData:true
 
-                    })
+                    },()=>console.log(this.state.blogsData))
             })
     }
     componentDidMount(){
@@ -263,7 +253,10 @@ class HomePage extends React.Component{
     render()
     {
         // const blogsData=this.state.blogsData
+
         const {classes} = this.props
+        let list=this.state.blogsData.records
+        // console.log(list)
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -284,7 +277,9 @@ class HomePage extends React.Component{
                             {/*    control={<Checkbox checked={this.state.myblogChecked} onChange={this.CheckboxChange} name="myblogChecked" />}*/}
                             {/*    label="MY BLOGS"*/}
                             {/*/>*/}
+
                             <Grid className={classes.formControl}>
+                                <Button variant="contained" onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
                                 <Grid ms={3}>
                                     <InputLabel id="demo-simple-select-label">Selector</InputLabel>
                                     <Select
@@ -338,73 +333,31 @@ class HomePage extends React.Component{
                                 </Grid>
                             </Grid>
 
-                            {this.state.blogsData.records.map((post) => (
+                            {list.map((post) => (
                                 <BlogCard key={post.id} post={post} history={this.props.history} RefreshBlogs={this.RefreshBlogs.bind(this)}/>
                             ))}
                             <Pagination count={this.state.blogsData.pages} color="secondary" onChange={this.PageChange}/>
                         </Grid>
-                        <Grid xs={3}>
-                            <Button variant="contained" onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
+                        <Grid xs={3} className={classes.sidebarDesktop}>
+
                             <Sidebar
-                                title={sidebar.title}
-                                description={sidebar.description}
-                                archives={sidebar.archives}
-                                social={sidebar.social}
+                                title={sidebarValue.title}
+                                description={sidebarValue.description}
+                                archives={sidebarValue.archives}
+                                social={sidebarValue.social}
                             />
                         </Grid>
 
+                        {/*{renderSidebar}*/}
+                        {/*{renderMobileSidebar}*/}
+
+
 
                     </Grid>
-                    {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
-                    {/*    Quickly build an effective pricing table for your potential customers with this layout.*/}
-                    {/*    It&apos;s built with default Material-UI components with little customization.*/}
-                    {/*</Typography>*/}
+
 
                 </Container>
-                {/* End hero unit */}
-                {/*<Container maxWidth="md" component="main">*/}
-                {/*    <Grid container spacing={5} alignItems="flex-end">*/}
-                {/*        {tiers.map((tier) => (*/}
-                {/*            // Enterprise card is full width at sm breakpoint*/}
-                {/*            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>*/}
-                {/*                <Card>*/}
-                {/*                    <CardHeader*/}
-                {/*                        title={tier.title}*/}
-                {/*                        subheader={tier.subheader}*/}
-                {/*                        titleTypographyProps={{align: 'center'}}*/}
-                {/*                        subheaderTypographyProps={{align: 'center'}}*/}
-                {/*                        action={tier.title === 'Pro' ? <StarIcon/> : null}*/}
-                {/*                        className={classes.cardHeader}*/}
-                {/*                    />*/}
-                {/*                    <CardContent>*/}
-                {/*                        <div className={classes.cardPricing}>*/}
-                {/*                            <Typography component="h2" variant="h3" color="textPrimary">*/}
-                {/*                                ${tier.price}*/}
-                {/*                            </Typography>*/}
-                {/*                            <Typography variant="h6" color="textSecondary">*/}
-                {/*                                /mo*/}
-                {/*                            </Typography>*/}
-                {/*                        </div>*/}
-                {/*                        <ul>*/}
-                {/*                            {tier.description.map((line) => (*/}
-                {/*                                <Typography component="li" variant="subtitle1" align="center"*/}
-                {/*                                            key={line}>*/}
-                {/*                                    {line}*/}
-                {/*                                </Typography>*/}
-                {/*                            ))}*/}
-                {/*                        </ul>*/}
-                {/*                    </CardContent>*/}
-                {/*                    <CardActions>*/}
-                {/*                        <Button fullWidth variant={tier.buttonVariant} color="primary">*/}
-                {/*                            {tier.buttonText}*/}
-                {/*                        </Button>*/}
-                {/*                    </CardActions>*/}
-                {/*                </Card>*/}
-                {/*            </Grid>*/}
-                {/*        ))}*/}
-                {/*    </Grid>*/}
-                {/*</Container>*/}
-                {/* Footer */}
+
                 <Container maxWidth="md" component="footer" className={classes.footer}>
                     <Grid container spacing={4} justify="space-evenly">
                         {footers.map((footer) => (

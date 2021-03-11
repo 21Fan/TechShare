@@ -106,6 +106,11 @@ class PrimarySearchAppBar extends React.Component{
         const handleProfileMenuOpen = (event) => {
             this.setState({anchorEl:event.currentTarget});
         };
+        const LogoutButton = () => {
+            this.props.history.push('/SignIn');
+            localStorage.clear();
+
+        };
 
         const handleMobileMenuClose = () => {
             //setMobileMoreAnchorEl(null);
@@ -137,6 +142,7 @@ class PrimarySearchAppBar extends React.Component{
             >
                 <MenuItem onClick={handleMenuClose}><Button onClick={()=>this.props.history.push('/SignIn')}>登录</Button></MenuItem>
                 <MenuItem onClick={handleMenuClose}><Button onClick={()=>this.props.history.push('/SignUp')}>注册</Button></MenuItem>
+                <MenuItem onClick={handleMenuClose}><Button onClick={LogoutButton}>登出</Button></MenuItem>
             </Menu>
         );
 

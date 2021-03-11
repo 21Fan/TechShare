@@ -37,6 +37,8 @@ import Blog from "./components/Blog";
 import MarkdownEditor from "./components/MarkdownEditor";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
+import axios from 'axios';
+import {sidebarValue} from './components/Sidebar';
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -150,29 +152,6 @@ const footers = [
     },
 ];
 
-const sidebar = {
-    title: 'About',
-    description:
-        'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-    archives: [
-        { title: 'March 2020', url: '#' },
-        { title: 'February 2020', url: '#' },
-        { title: 'January 2020', url: '#' },
-        { title: 'November 1999', url: '#' },
-        { title: 'October 1999', url: '#' },
-        { title: 'September 1999', url: '#' },
-        { title: 'August 1999', url: '#' },
-        { title: 'July 1999', url: '#' },
-        { title: 'June 1999', url: '#' },
-        { title: 'May 1999', url: '#' },
-        { title: 'April 1999', url: '#' },
-    ],
-    social: [
-        { name: 'GitHub', icon: GitHubIcon },
-        { name: 'Twitter', icon: TwitterIcon },
-        { name: 'Facebook', icon: FacebookIcon },
-    ],
-};
 
 class EditBlogPage extends React.Component{
     constructor(props) {
@@ -191,9 +170,9 @@ class EditBlogPage extends React.Component{
     }
     getBlogById(id){
         console.log(id)
-        fetch('http://localhost:8080/blog/'+id
+        axios.get('http://localhost:8080/blog/'+id
             ,{
-                method:'GET',
+                // method:'GET',
 
             })
             .then(res =>res.json())
@@ -279,10 +258,10 @@ class EditBlogPage extends React.Component{
                         </Grid>
                         <Grid xs={3}>
                             <Sidebar
-                                title={sidebar.title}
-                                description={sidebar.description}
-                                archives={sidebar.archives}
-                                social={sidebar.social}
+                                title={sidebarValue.title}
+                                description={sidebarValue.description}
+                                archives={sidebarValue.archives}
+                                social={sidebarValue.social}
                             />
                         </Grid>
 

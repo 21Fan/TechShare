@@ -5,6 +5,7 @@ import "vditor/src/assets/scss/index.scss"
 import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import axios from "axios";
 
 
 const e = React.createElement
@@ -50,9 +51,9 @@ export default class MarkdownEditor extends React.Component {
     PostMD(id,title,description){
         const editorValue=this.state.vditor.getValue();
         console.log(JSON.parse(localStorage.getItem("jwt")).jwt)
-        fetch('http://localhost:8080/blog/edit'
+        axios.post('/blog/edit'
             ,{
-                method:'POST',
+
                 headers:{
                     'content-type':'application/json',
                     'Authorization':JSON.parse(localStorage.getItem("jwt")).jwt
@@ -66,8 +67,9 @@ export default class MarkdownEditor extends React.Component {
 
 
             })
-            .then(res =>res.json())
+            // .then(res =>res.json())
             .then((body) => {
+                body=body.data
                 console.log(body)
                 this.setState({
                     open:true,

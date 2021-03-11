@@ -24,7 +24,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
 import Copyright from './components/Copyright'
-import Sidebar from "./components/Sidebar";
+import Sidebar, {sidebarValue} from "./components/Sidebar";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -34,6 +34,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import BlogCard from "./components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Blog from "./components/Blog";
+import axios from 'axios';
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -147,29 +148,6 @@ const footers = [
     },
 ];
 
-const sidebar = {
-    title: 'About',
-    description:
-        'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-    archives: [
-        { title: 'March 2020', url: '#' },
-        { title: 'February 2020', url: '#' },
-        { title: 'January 2020', url: '#' },
-        { title: 'November 1999', url: '#' },
-        { title: 'October 1999', url: '#' },
-        { title: 'September 1999', url: '#' },
-        { title: 'August 1999', url: '#' },
-        { title: 'July 1999', url: '#' },
-        { title: 'June 1999', url: '#' },
-        { title: 'May 1999', url: '#' },
-        { title: 'April 1999', url: '#' },
-    ],
-    social: [
-        { name: 'GitHub', icon: GitHubIcon },
-        { name: 'Twitter', icon: TwitterIcon },
-        { name: 'Facebook', icon: FacebookIcon },
-    ],
-};
 
 class BlogPage extends React.Component{
     constructor(props) {
@@ -188,16 +166,16 @@ class BlogPage extends React.Component{
     }
     getBlogById(id){
         console.log(id)
-        fetch('http://localhost:8080/blog/'+id
+        axios.get('blog/'+id
             ,{
-                method:'GET',
+
 
             })
-            .then(res =>res.json())
+
             .then((body) => {
-                console.log(body)
+                console.log(body.data)
                 this.setState({
-                    blogData:body.data
+                    blogData:body.data.data
                 })
             })
     }
@@ -234,10 +212,10 @@ class BlogPage extends React.Component{
                         </Grid>
                         <Grid xs={3}>
                             <Sidebar
-                                title={sidebar.title}
-                                description={sidebar.description}
-                                archives={sidebar.archives}
-                                social={sidebar.social}
+                                title={sidebarValue.title}
+                                description={sidebarValue.description}
+                                archives={sidebarValue.archives}
+                                social={sidebarValue.social}
                             />
                         </Grid>
 
