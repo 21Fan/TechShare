@@ -39,6 +39,8 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
 import {sidebarValue} from './components/Sidebar';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Footer, {footers} from "./components/footer";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -97,6 +99,18 @@ const useStyles = theme => ({
             paddingBottom: theme.spacing(6),
         },
     },
+    circular: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
+    },
+    sidebarDesktop:{
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
 });
 
 const tiers = [
@@ -133,24 +147,7 @@ const tiers = [
         buttonVariant: 'outlined',
     },
 ];
-const footers = [
-    {
-        title: 'Company',
-        description: ['Team', 'History', 'Contact us', 'Locations'],
-    },
-    {
-        title: 'Features',
-        description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-    },
-    {
-        title: 'Resources',
-        description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-    },
-    {
-        title: 'Legal',
-        description: ['Privacy policy', 'Terms of use'],
-    },
-];
+
 
 
 class EditBlogPage extends React.Component{
@@ -161,30 +158,38 @@ class EditBlogPage extends React.Component{
                 "userId": 1,
                 "title": "生活就像海洋，只有意志坚强的人才能到达彼岸",
                 "description": "这里是摘要哈哈哈",
-                "content": "内容？？？",
+                "content": "",
                 "created": "2020-05-21T22:08:42",
                 "status": 0},
+            loading: false,
+
 
         };
+        // this.getBlogById = this.getBlogById.bind(this)
 
     }
     getBlogById(id){
         console.log(id)
-        axios.get('http://localhost:8080/blog/'+id
+        axios.get('blog/'+id
             ,{
                 // method:'GET',
 
             })
-            .then(res =>res.json())
+            // .then(res =>res.json())
             .then((body) => {
-                console.log(body)
+                console.log(body.data.data)
                 this.setState({
-                    blogData:body.data
-                })
+                    blogData:body.data.data,
+                    loading:true
+                },()=>{
+                    console.log(this.state.blogData)})
+
             })
     }
-    componentDidMount(){
+    componentWillMount(){
+        console.log("componentWillMount")
         this.getBlogById(this.props.match.params.id)
+        console.log("componentWillMount")
 
     }
     titleChange=(event)=>{
@@ -207,100 +212,95 @@ class EditBlogPage extends React.Component{
         //const blogsData=this.state.blogsData
         const {classes} = this.props
         let data=this.state.blogData
+        console.log(data)
+        if (this.state.loading===false)
+            {
+                return(
+                    <div className={classes.circular}>
+                        <CircularProgress />
+
+                    </div>
+            )
+            }
+            else
         return (
-            <React.Fragment>
-                <CssBaseline/>
 
-                <PrimarySearchAppBar history={ this.props.history }/>
 
-                <Toolbar id="back-to-top-anchor"/>
+                    <React.Fragment>
+                        <CssBaseline/>
 
-                <Container>
-                    {/*<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>*/}
-                    {/*    Pricing*/}
-                    {/*</Typography>*/}
-                    {/*<RecipeReviewCard/>*/}
+                        <PrimarySearchAppBar history={this.props.history}/>
 
-                    <Grid container spacing={0} direction={"row"}>
-                        {/*<Grid ms={12}>*/}
-                        {/*    /!*<Typography >{id}</Typography>*!/*/}
+                        <Toolbar id="back-to-top-anchor"/>
 
-                        {/*</Grid>*/}
+                        <Container>
+                            {/*<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>*/}
+                            {/*    Pricing*/}
+                            {/*</Typography>*/}
+                            {/*<RecipeReviewCard/>*/}
 
-                        <Grid xs>
-                            {/*<Typography >{id}</Typography>*/}
-                            <Typography variant="h2" color="textPrimary" gutterBottom>
-                                Edit Blog
-                            </Typography>
-                            <TextField
-                                id="outlined-textarea-title"
-                                label="Title"
-                                placeholder="Placeholder"
-                                multiline
-                                variant="outlined"
-                                value={this.state.blogData.title}
-                                onChange={this.titleChange}
-                            />
-                            <TextField
-                                id="outlined-textarea-description"
-                                label="Description"
-                                placeholder="Placeholder"
-                                multiline
-                                variant="outlined"
-                                value={this.state.blogData.description}
-                                onChange={this.descriptionChange}
-                            />
-                            <Blog blogData={this.state.blogData}/>
-                            <Grid xs={11}>
-                            <MarkdownEditor triggerRef={this.bindRef} content={data.content} history={ this.props.history }/>
-                            <Button onClick={()=>this.MarkdownEditor.PostMD(id,data.title,data.description)}>Submit</Button>
+                            <Grid container spacing={0} direction={"row"}>
+                                {/*<Grid ms={12}>*/}
+                                {/*    /!*<Typography >{id}</Typography>*!/*/}
+
+                                {/*</Grid>*/}
+
+                                <Grid xs>
+                                    {/*<Typography >{id}</Typography>*/}
+                                    <Typography variant="h2" color="textPrimary" gutterBottom>
+                                        Edit Blog
+                                    </Typography>
+                                    <TextField
+                                        id="outlined-textarea-title"
+                                        label="Title"
+                                        placeholder="Placeholder"
+                                        multiline
+                                        variant="outlined"
+                                        value={this.state.blogData.title}
+                                        onChange={this.titleChange}
+                                    />
+                                    <TextField
+                                        id="outlined-textarea-description"
+                                        label="Description"
+                                        placeholder="Placeholder"
+                                        multiline
+                                        variant="outlined"
+                                        value={this.state.blogData.description}
+                                        onChange={this.descriptionChange}
+                                    />
+                                    {/*<Blog blogData={this.state.blogData}/>*/}
+                                    <Grid xs={11}>
+                                        <MarkdownEditor triggerRef={this.bindRef} content={this.state.blogData.content}
+                                                        history={this.props.history}/>
+                                        <Button
+                                            onClick={() => this.MarkdownEditor.PostMD(id, data.title, data.description)}>Submit</Button>
+                                    </Grid>
+                                </Grid>
+                                <Grid xs={3} className={classes.sidebarDesktop}>
+                                    <Sidebar
+                                        title={sidebarValue.title}
+                                        description={sidebarValue.description}
+                                        archives={sidebarValue.archives}
+                                        social={sidebarValue.social}
+                                    />
+                                </Grid>
+
+
                             </Grid>
-                        </Grid>
-                        <Grid xs={3}>
-                            <Sidebar
-                                title={sidebarValue.title}
-                                description={sidebarValue.description}
-                                archives={sidebarValue.archives}
-                                social={sidebarValue.social}
-                            />
-                        </Grid>
+                            {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
+                            {/*    Quickly build an effective pricing table for your potential customers with this layout.*/}
+                            {/*    It&apos;s built with default Material-UI components with little customization.*/}
+                            {/*</Typography>*/}
+
+                        </Container>
 
 
-                    </Grid>
-                    {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
-                    {/*    Quickly build an effective pricing table for your potential customers with this layout.*/}
-                    {/*    It&apos;s built with default Material-UI components with little customization.*/}
-                    {/*</Typography>*/}
+                        {/* End footer */}
+                        <BackToTop/>
+                        <Footer/>
 
-                </Container>
+                    </React.Fragment>
 
-                <Container maxWidth="md" component="footer" className={classes.footer}>
-                    <Grid container spacing={4} justify="space-evenly">
-                        {footers.map((footer) => (
-                            <Grid item xs={6} sm={3} key={footer.title}>
-                                <Typography variant="h6" color="textPrimary" gutterBottom>
-                                    {footer.title}
-                                </Typography>
-                                <ul>
-                                    {footer.description.map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" variant="subtitle1" color="textSecondary">
-                                                {item}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Grid>
-                        ))}
-                    </Grid>
-                    <Box mt={5}>
-                        <Copyright/>
-                    </Box>
-                </Container>
-                {/* End footer */}
-                <BackToTop/>
-
-            </React.Fragment>
         );
     }
 }

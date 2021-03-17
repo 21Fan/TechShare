@@ -5,7 +5,7 @@ import "vditor/src/assets/scss/index.scss"
 import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import axios from "axios";
+import axios from 'axios';
 
 
 const e = React.createElement
@@ -29,8 +29,9 @@ export default class MarkdownEditor extends React.Component {
     // }
     componentDidMount () {
         this.props.triggerRef(this)
-        const content=this.state.content
+        let content=this.props.content
         console.log(content)
+
         const vditor = new Vditor('vditor', {
             height: 360,
             toolbarConfig: {
@@ -49,46 +50,53 @@ export default class MarkdownEditor extends React.Component {
 
     }
     PostMD(id,title,description){
-        const editorValue=this.state.vditor.getValue();
+        let editorValue=this.state.vditor.getValue();
+        console.log(title,description)
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
         console.log(JSON.parse(localStorage.getItem("jwt")).jwt)
-        axios.post('/blog/edit'
+        axios.post('blog/edit'
             ,{
 
-                headers:{
-                    'content-type':'application/json',
-                    'Authorization':JSON.parse(localStorage.getItem("jwt")).jwt
-                },
-                body:JSON.stringify({
+
+                // body:{
                     "id":id,
                     "title":title,
                     "description":description,
                     "content": editorValue
-                })
+                // }
 
 
-            })
+            },{
+                headers:{
+                    // 'content-type':'application/json',
+                    // "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjE1NzM3NjA0LCJleHAiOjE2MTYzNDI0MDR9.fb5mDUS76XKCG4PgNhySWo6XLMO0PDSbnty-5MBFcEr8iZC01y8DX9MHNu9MlSQAQUY4oxNSjbpiN1pADR8n4w"
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+                }
+            }
+            )
             // .then(res =>res.json())
             .then((body) => {
-                body=body.data
-                console.log(body)
-                this.setState({
-                    open:true,
-                    msg:body.msg,
-                    data:body.data
-                })
-                if (body.code===200){
-                    this.setState({
-                        severity:"success"
-                    })
-                }
-                else {
-                    this.setState({
-                        severity:"error",
-                    })
-                }
+            //     body=body.data
+            //     console.log(body)
+            //     this.setState({
+            //         open:true,
+            //         msg:body.msg,
+            //         data:body.data
+            //     })
+            //     if (body.code===200){
+            //         this.setState({
+            //             severity:"success"
+            //         })
+            //     }
+            //     else {
+            //         this.setState({
+            //             severity:"error",
+            //         })
+            //     }
             })
         console.log(editorValue)
-        setTimeout(()=>this.props.history.push('/'),1000);
+        // setTimeout(()=>this.props.history.push('/'),1000);
 
     }
     // PostMarkdown(){

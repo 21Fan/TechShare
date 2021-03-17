@@ -216,6 +216,7 @@ class PrimarySearchAppBar extends React.Component{
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{'aria-label': 'search'}}
+                                onChange
                             />
                         </div>
                         <div className={classes.grow}/>

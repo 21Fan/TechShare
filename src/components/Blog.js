@@ -37,7 +37,8 @@ class Blog extends React.Component{
     render(){
     const  blogData  = this.props.blogData;
     const {classes} = this.props;
-    console.log(blogData.content)
+    const blogId=blogData.id
+    console.log(blogId)
     return (
         // <Grid item xs={12} md={8}>
         //     <Typography variant="h6" gutterBottom>
@@ -51,7 +52,7 @@ class Blog extends React.Component{
         //     ))}
         // </Grid>
         <Grid xs={11}>
-            <Paper elevation={3}>
+            <Paper elevation={5}>
                 {/*<TextField*/}
                 {/*    id="outlined-multiline-static"*/}
                 {/*    label="Multiline"*/}
@@ -77,7 +78,8 @@ class Blog extends React.Component{
                     {/*{post1}*/}
                     {blogData.content}
                 </Markdown>
-                <CustomizedTimeline></CustomizedTimeline>
+
+                <CustomizedTimeline blogId={blogId}/>
                     {/*))}*/}
 
             </Paper>
