@@ -14,7 +14,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import HideAppBar from "./components/Header";
+
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import RecipeReviewCard from "./components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";

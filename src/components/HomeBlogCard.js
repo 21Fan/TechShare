@@ -23,7 +23,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import CollectionsBookmarkRoundedIcon from '@material-ui/icons/CollectionsBookmarkRounded';
 import axios from "axios";
+import {ThumbDownAltRounded, ThumbUpAltRounded} from "@material-ui/icons";
+import green from "@material-ui/core/colors/green";
 const useStyles = theme => ({
     root: {
         maxWidth: 800,
@@ -54,22 +57,93 @@ class BlogCard extends React.Component{
         this.state={
             expanded:false,
             openCardHeaderMenu:null,
-
+            like:false,
+            dislike:false,
+            collect:false,
+            share:false
         }
     }
 
     render()
-{
+    {
 
     const {classes} = this.props;
     //const classes = this.useStyles();
     //const [expanded, setExpanded] = React.useState(false);
     const post  = this.props.post
-    const {expanded,openCardHeaderMenu}=this.state
+    const {expanded,openCardHeaderMenu,like,dislike,collect,share}=this.state
     const handleExpandClick = () => {
         // setExpanded(!expanded);
         this.setState({expanded:!expanded})
     };
+    const ClickLike=()=>{
+        this.setState({like:!like})
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+        console.log(userJwt)
+        axios.get(
+            'blog/like?isadd=' + !like + '&blogId=' + post.id,
+            {
+                headers:{
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+                }
+            }
+        ).then (
+            ()=>{}
+        )
+
+    }
+    const ClickDislike=()=>{
+        this.setState({dislike:!dislike})
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+        axios.get(
+            'blog/dislike?isadd=' + !dislike + '&blogId=' + post.id,
+            {
+                headers:{
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+                }
+            }
+
+        ).then (
+            ()=>{}
+        )
+
+    }
+    const ClickCollect=()=>{
+        this.setState({collect:!collect})
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+        axios.get(
+            'blog/collect?isadd=' + !collect + '&blogId=' + post.id,
+            {
+                headers:{
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+                }
+            }
+
+        ).then (
+            ()=>{}
+        )
+
+    }
+    const ClickShare=()=>{
+        this.setState({share:!share})
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+        axios.get(
+            'blog/share?isadd=' + !share + '&blogId=' + post.id,
+            {
+                headers:{
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+                }
+            }
+
+        ).then (
+            ()=>{}
+        )
+
+    }
 
     const handleMenuClick = (event) => {
         this.setState({openCardHeaderMenu:event.currentTarget});
@@ -161,16 +235,42 @@ class BlogCard extends React.Component{
                     </CardActionArea>
                 </Tooltip>
                 <CardActions disableSpacing>
-                    <Tooltip title="Favorite">
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon/>
+                    <Tooltip title="Like">
+                        <IconButton disabled={this.state.dislike} onClick={ClickLike} aria-label="add to likes">
+                            <ThumbUpAltRounded color={this.state.like?"secondary":"action"}/>
                         </IconButton>
                     </Tooltip>
+
+                    <Typography>
+                        {post.likenum+this.state.like}
+                    </Typography>
+                    <Tooltip title="Dislike">
+                        <IconButton disabled={this.state.like} onClick={ClickDislike} aria-label="add to dislikes ">
+                            <ThumbDownAltRounded color={this.state.dislike?"secondary":"action"}/>
+                        </IconButton>
+
+                    </Tooltip>
+                    <Typography>
+                        {post.dislikenum+this.state.dislike}
+                    </Typography>
+                    <Tooltip title="Collect">
+                        <IconButton onClick={ClickCollect} aria-label="add to collections ">
+                            <CollectionsBookmarkRoundedIcon color={this.state.collect?"secondary":"action"}/>
+                        </IconButton>
+
+                    </Tooltip>
+                    <Typography>
+                        {post.collectnum+this.state.collect}
+                    </Typography>
                     <Tooltip title="Share">
-                        <IconButton aria-label="share">
-                            <ShareIcon/>
+                        <IconButton onClick={ClickShare} aria-label="share">
+                            <ShareIcon color={this.state.share?"secondary":"action"}/>
                         </IconButton>
                     </Tooltip>
+                    <Typography>
+                        {post.sharenum+this.state.share}
+                    </Typography>
+
                     <Tooltip title="More">
                         <IconButton
                             className={clsx(classes.expand, {

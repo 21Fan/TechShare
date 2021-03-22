@@ -117,7 +117,7 @@ export default class AxiosInterceptors extends React.Component {
     render() {
 
             return(
-                <Snackbar open={this.state.open} autoHideDuration={6000} onClose={()=>this.handleClose()}>
+                <Snackbar open={this.state.open} autoHideDuration={2000} onClose={()=>this.handleClose()}>
                     <Alert onClose={()=>this.handleClose()} severity={this.state.severity}>
                         {this.state.msg}
                         {/*{this.state.data}*/}
