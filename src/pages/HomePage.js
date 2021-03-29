@@ -15,25 +15,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import RecipeReviewCard from "./components/HomeBlogCard";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
+import RecipeReviewCard from "../components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import BackToTop from './components/BackToTop'
+import BackToTop from '../components/BackToTop'
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
-import Copyright from './components/Copyright'
-import Sidebar from "./components/Sidebar";
+import Copyright from '../components/Copyright'
+import Sidebar from "../components/Sidebar";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import SwipeableTemporaryDrawer from "./components/Drawer";
+import SwipeableTemporaryDrawer from "../components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
-import BlogCard from "./components/HomeBlogCard";
+import BlogCard from "../components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
-import AxiosInterceptors from "./axios";
+import AxiosInterceptors from "../axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import axios from 'axios';
@@ -43,13 +43,15 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import {sidebarValue} from './components/Sidebar';
+import {sidebarValue} from '../components/Sidebar';
 import Menu from "@material-ui/core/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import Footer, {footers} from "./components/footer";
+import Footer, {footers} from "../components/footer";
+import SelectInput from "@material-ui/core/Select/SelectInput";
+import TextField from "@material-ui/core/TextField";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -156,20 +158,23 @@ class HomePage extends React.Component{
             blogsData:{"records":[],"pages":1},
             //myblogChecked:false,
             blogsMode:1,
-            selectName:'',
+            selectName:'',//筛选的用户名
+            openselectName:false,
             OrderBy:"created",
             OrderMode:"Desc",
             gotData:false,
             pageNow:1,
 
+
         };
 
     }
-    getBlogs(page,mode,OrderBy,OrderMode){
+    getBlogs(){
+        const {pageNow,OrderMode,selectName,OrderBy,blogsMode}=this.state
         const userJwt = JSON.parse(localStorage.getItem("jwt"));
 
-        console.log("page:",page)
-        axios.get('blogs'+'?currentPage='+page+'&mode='+mode+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
+        console.log("page:",pageNow)
+        axios.get('blogs'+'?currentPage='+pageNow+'&mode='+blogsMode+'&Username='+selectName+'&OrderBy='+OrderBy+'&OrderMode='+OrderMode
             ,{
 
                 headers:{
@@ -193,37 +198,44 @@ class HomePage extends React.Component{
                     },()=>console.log(this.state.blogsData))
             })
     }
+
     componentDidMount(){
-        this.getBlogs(1,1,"created","Desc")
+        this.getBlogs()
 
     }
     RefreshBlogs(){
         console.log("刷新主页")
-        this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+        this.getBlogs();
     }
     PageChange=(event, page)=>{
         console.log("page:",page)
         this.setState({ pageNow: page})
-        this.getBlogs(page,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode)
+        this.getBlogs()
     }
     blogsModeMenuChange = (event) => {
         this.setState({ blogsMode: event.target.value },()=>{
-            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs();
         });//更改按钮状态
 
     };
     OrderByMenuChange = (event) => {
         this.setState({ OrderBy: event.target.value },()=>{
-            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs();
         });//更改按钮状态
 
     };
     OrderModeMenuChange = (event) => {
         this.setState({ OrderMode: event.target.value },()=>{
-            this.getBlogs(this.state.pageNow,this.state.blogsMode,this.state.OrderBy,this.state.OrderMode);
+            this.getBlogs();
         });//更改按钮状态
 
     };
+    filtrateUserName=(event)=>{
+        this.setState({ selectName: event.target.value },()=>{
+            this.getBlogs();
+        });
+
+    }
 
     render()
     {
@@ -267,9 +279,11 @@ class HomePage extends React.Component{
                                         <MenuItem value={1}>All</MenuItem>
                                         <MenuItem value={2}>Mine</MenuItem>
                                         <MenuItem value={3}>Others</MenuItem>
+                                        <MenuItem value={4}>Someone</MenuItem>
                                         {/*<MenuItem value={2}>My Blogs</MenuItem>*/}
 
                                     </Select>
+                                    <TextField onChange={this.filtrateUserName} id="outlined-basic" label="请输入需要查询的用户名" variant="outlined" />
                                 </Grid>
                                 <Grid ms={3}>
                                     <InputLabel id="demo-simple-select-label">OrderBy</InputLabel>

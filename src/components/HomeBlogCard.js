@@ -202,7 +202,7 @@ class BlogCard extends React.Component{
                             >
                                 <MenuItem onClick={CardMenuEdit}>Edit</MenuItem>
                                 <MenuItem onClick={CardMenuDelete}>Delete</MenuItem>
-                                <MenuItem onClick={handleCardMenuClose}>Logout</MenuItem>
+                                {/*<MenuItem onClick={handleCardMenuClose}>Logout</MenuItem>*/}
                             </Menu>
                         </div>
                     }

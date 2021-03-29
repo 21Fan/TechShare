@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import ProTip from './ProTip';
-import Pricing from './HomePage.js';
+import Pricing from './pages/HomePage.js';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">

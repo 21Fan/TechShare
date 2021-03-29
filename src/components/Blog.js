@@ -18,7 +18,8 @@ const post1="# Sample blog post\n" +
 import MarkdownEditor from './MarkdownEditor'
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-import CustomizedTimeline from "./TimeLine";
+import CustomizedTimeline from "./Comment";
+import SpeedDials from "./Dial";
 const useStyles = theme => ({
     markdown: {
         ...theme.typography.body2,
@@ -51,7 +52,7 @@ class Blog extends React.Component{
         //         </Markdown>
         //     ))}
         // </Grid>
-        <Grid xs={11}>
+        <Grid xs={12}>
             <Paper elevation={5}>
                 {/*<TextField*/}
                 {/*    id="outlined-multiline-static"*/}
@@ -78,6 +79,7 @@ class Blog extends React.Component{
                     {/*{post1}*/}
                     {blogData.content}
                 </Markdown>
+                <Divider />
 
                 <CustomizedTimeline blogId={blogId}/>
                     {/*))}*/}

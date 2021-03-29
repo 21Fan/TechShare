@@ -173,11 +173,14 @@ class PrimarySearchAppBar extends React.Component{
                                 TechShare
                             </Typography>
                         </Button>
-                        <SearchBar/>
+                        <SearchBar history={ this.props.history }/>
 
                         <div className={classes.grow}/>
                         <div className={classes.sectionDesktop}>
-                            <IconButton aria-label="show 4 new mails" color="inherit">
+                            <IconButton aria-label="show 4 new mails" color="inherit"
+                                        onClick={()=>{this.props.history.push('/Info')}}
+
+                            >
                                 <Badge badgeContent={4} color="secondary">
                                     <MailIcon/>
                                 </Badge>

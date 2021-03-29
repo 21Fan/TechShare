@@ -15,32 +15,32 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import RecipeReviewCard from "./components/HomeBlogCard";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
+import RecipeReviewCard from "../components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import BackToTop from './components/BackToTop'
+import BackToTop from '../components/BackToTop'
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
-import Copyright from './components/Copyright'
-import Sidebar from "./components/Sidebar";
+import Copyright from '../components/Copyright'
+import Sidebar from "../components/Sidebar";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import SwipeableTemporaryDrawer from "./components/Drawer";
+import SwipeableTemporaryDrawer from "../components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
-import BlogCard from "./components/HomeBlogCard";
+import BlogCard from "../components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Blog from "./components/Blog";
-import MarkdownEditor from "./components/MarkdownEditor";
+import Blog from "../components/Blog";
+import MarkdownEditor from "../components/MarkdownEditor";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
-import {sidebarValue} from './components/Sidebar';
+import {sidebarValue} from '../components/Sidebar';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Footer, {footers} from "./components/footer";
+import Footer, {footers} from "../components/footer";
 const useStyles = theme => ({
     '@global': {
         ul: {

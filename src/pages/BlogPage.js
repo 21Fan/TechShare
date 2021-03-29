@@ -15,28 +15,30 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import RecipeReviewCard from "./components/HomeBlogCard";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
+import RecipeReviewCard from "../components/HomeBlogCard";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import BackToTop from './components/BackToTop'
+import BackToTop from '../components/BackToTop'
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import PropTypes from "prop-types";
-import Copyright from './components/Copyright'
-import Sidebar, {sidebarValue} from "./components/Sidebar";
+import Copyright from '../components/Copyright'
+import Sidebar, {sidebarValue} from "../components/Sidebar";
 
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import SwipeableTemporaryDrawer from "./components/Drawer";
+import SwipeableTemporaryDrawer from "../components/Drawer";
 import Pagination from "@material-ui/lab/Pagination";
-import BlogCard from "./components/HomeBlogCard";
+import BlogCard from "../components/HomeBlogCard";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Blog from "./components/Blog";
+import Blog from "../components/Blog";
 import axios from 'axios';
-import SpeedDials from "./components/Dial";
-import Footer, {footers} from "./components/footer";
+import SpeedDials from "../components/Dial";
+import Footer, {footers} from "../components/footer";
+import TextField from "@material-ui/core/TextField";
+import CustomizedSnackbars from "../components/SnackBar";
 const useStyles = theme => ({
     '@global': {
         ul: {
@@ -151,6 +153,8 @@ class BlogPage extends React.Component{
                 "content": "内容？？？",
                 "created": "2020-05-21T22:08:42",
                 "status": 0},
+            newcommentValue:"",
+
 
         };
 
@@ -174,14 +178,17 @@ class BlogPage extends React.Component{
         this.getBlogById(this.props.match.params.id)
 
     }
+
     // handleChangePage(event, page){
     //     this.getBlogs(page);
     // }
+    onRef = ref => { this.CustomizedSnackbars = ref }
     render()
     {
         const id =this.props.match.params.id
         //const blogsData=this.state.blogsData
         const {classes} = this.props
+
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -197,10 +204,18 @@ class BlogPage extends React.Component{
                     {/*<RecipeReviewCard/>*/}
 
                     <Grid container spacing={0}>
-                        <Grid xs>
+                        <Grid xs
+                              // alignItems="center"
+                        >
+
                             {/*<Typography >{id}</Typography>*/}
                             <Blog blogData={this.state.blogData}/>
-                            <SpeedDials/>
+
+
+
+                        </Grid>
+                        <Grid xs={1}>
+                            <SpeedDials id={id}/>
                         </Grid>
 
                         <Grid xs={3} className={classes.sidebarDesktop}>
@@ -214,12 +229,16 @@ class BlogPage extends React.Component{
 
 
                     </Grid>
+                    {/*<Grid>*/}
+                    {/*    <TextField id="standard-basic" label="Standard" />*/}
+                    {/*</Grid>*/}
 
                     {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
                     {/*    Quickly build an effective pricing table for your potential customers with this layout.*/}
                     {/*    It&apos;s built with default Material-UI components with little customization.*/}
                     {/*</Typography>*/}
 
+                    <CustomizedSnackbars onRef={this.onRef}/>
                 </Container>
                 {/* End hero unit */}
                 {/*<Container maxWidth="md" component="main">*/}
