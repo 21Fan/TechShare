@@ -203,6 +203,7 @@ class HomePage extends React.Component{
         this.getBlogs()
 
     }
+
     RefreshBlogs(){
         console.log("刷新主页")
         this.getBlogs();
@@ -267,6 +268,7 @@ class HomePage extends React.Component{
 
                             <Grid className={classes.formControl}>
                                 <Button variant="contained" onClick={()=>this.props.history.push('/newblog')}><Typography>NewBlog</Typography></Button>
+                                <Button onClick={()=>this.RefreshBlogs}><Typography>Refresh</Typography></Button>
                                 <Grid ms={3}>
                                     <InputLabel id="demo-simple-select-label">Selector</InputLabel>
                                     <Select
