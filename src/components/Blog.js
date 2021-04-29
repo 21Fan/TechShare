@@ -30,7 +30,7 @@ const useStyles = theme => ({
         marginLeft:20
     },
     title: {
-        margin: theme.spacing(1, 1),
+        margin: theme.spacing(2, 2),
     },
 })
 
@@ -91,6 +91,7 @@ class Blog extends React.Component{
                 {/*    defaultValue="Default Value"*/}
                 {/*    variant="outlined"*/}
                 {/*/>*/}
+
                 {this.state.tags.map((tagData) =>(
                     <Chip
                         // avatar={<Avatar>M</Avatar>}
@@ -128,6 +129,9 @@ class Blog extends React.Component{
                     {blogData.content}
                 </Markdown>
                 <Divider />
+                <Typography variant="h6" gutterBottom className={classes.title}>
+                    {"此文章总共有"}{blogData.gradenum}{"人参与评分，平均分为："}{blogData.avggrade}
+                </Typography>
 
                 <CustomizedTimeline blogId={blogId}/>
                     {/*))}*/}

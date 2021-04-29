@@ -58,7 +58,40 @@ class SpeedDials extends React.Component{
             openSpeedDial:false,
         }
     }
+    componentDidMount(){
+        // this.getMyaction();
 
+    }
+    getMyaction(){
+        const userJwt = JSON.parse(localStorage.getItem("jwt"));
+        // console.log(this.state.blogId)
+        axios.get('/blog/myaction?blogId='+this.props.id
+            ,{
+                headers:{
+
+                    "Authorization":(userJwt==null)?''
+                        :userJwt.jwt
+
+
+                }
+
+            })
+            .then((body) => {
+                console.log(body.data.data[0])
+                if(body.data.data[0]!=undefined)
+                {
+                this.setState({
+                    like:body.data.data[0].isLike,
+                    dislike:body.data.data[0].isDislike,
+                    collect:body.data.data[0].isCollection,
+                    share:body.data.data[0].isShare,
+
+                },()=>{
+                    console.log(this.state.like);
+                })
+                }
+            })
+    }
     render() {
         const id =this.props.id
         const {expanded,openCardHeaderMenu,like,dislike,collect,share}=this.state
@@ -148,7 +181,9 @@ class SpeedDials extends React.Component{
         };
 
         const handleOpen = () => {
+            this.getMyaction();
             this.setState({openSpeedDial:true});
+
         };
 
         return (

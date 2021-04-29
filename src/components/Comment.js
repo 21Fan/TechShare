@@ -37,6 +37,9 @@ const useStyles = theme => ({
     secondaryTail: {
         backgroundColor: theme.palette.secondary.main,
     },
+    comment: {
+        margin: theme.spacing(2, 3),
+    },
 });
 class CustomizedTimeline extends React.Component{
 // export default function CustomizedTimeline() {
@@ -61,7 +64,7 @@ class CustomizedTimeline extends React.Component{
     }
     getCommentByBlogId(){
         console.log(this.state.blogId)
-        axios.get('comment?blogId='+this.state.blogId
+        axios.get('commentlist?blogId='+this.state.blogId
             )
             .then((body) => {
                 console.log(body.data.data)
@@ -149,8 +152,11 @@ class CustomizedTimeline extends React.Component{
                 ))}
 
             </Timeline >
-        <Grid xs={12} justify="center" container direction="column"
+
+        <Grid xs={11} justify="center" container direction="column"
+              className={classes.comment}
         >
+            <Button onClick={()=>this.getCommentByBlogId()}>刷新评论</Button>
             <TextField
                 id="outlined-multiline-static"
                 label="Comment"
@@ -181,8 +187,9 @@ class CustomizedTimeline extends React.Component{
 
 
             </FormControl>
+            <Button onClick={this.submitComment.bind(this)}>提交评论</Button>
         </Grid>
-        <Button onClick={this.submitComment.bind(this)}>提交评论</Button>
+
             </Grid>
         );
     }

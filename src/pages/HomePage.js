@@ -318,12 +318,15 @@ class HomePage extends React.Component{
                                         value={this.state.OrderBy}
                                         onChange={this.OrderByMenuChange}
                                     >
+                                        <MenuItem value="score">Score</MenuItem>
+                                        <MenuItem value="avggrade">Average Grade</MenuItem>
                                         <MenuItem value="created">Created Time</MenuItem>
                                         <MenuItem value="title">Title</MenuItem>
                                         <MenuItem value="user_id">User Id</MenuItem>
                                         <MenuItem value="id">Blog Id</MenuItem>
                                         <MenuItem value="description">Description</MenuItem>
                                         <MenuItem value="content">Content</MenuItem>
+
                                         {/*id,created,description,title,user_id,content*/}
                                         {/*<MenuItem value={2}>My Blogs</MenuItem>*/}
 
