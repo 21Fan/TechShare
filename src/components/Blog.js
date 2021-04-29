@@ -20,6 +20,9 @@ import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CustomizedTimeline from "./Comment";
 import SpeedDials from "./Dial";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import axios from "axios";
 const useStyles = theme => ({
     markdown: {
         ...theme.typography.body2,
@@ -34,6 +37,32 @@ const useStyles = theme => ({
 class Blog extends React.Component{
 //export default function Blog(props) {
     //const classes = useStyles();
+    constructor(props) {
+        super(props);
+        this.state = {
+            tags:[],
+
+        };
+
+    }
+    componentDidMount(){
+        this.getTagsByBlogId();
+
+    }
+    getTagsByBlogId(){
+        // console.log(this.state.blogId)
+        axios.get('/blog/tags?blogId='+this.props.blogData.id
+            ,{
+
+
+            })
+            .then((body) => {
+                console.log(body.data.data)
+                this.setState({
+                    tags:body.data.data
+                })
+            })
+    }
     bindRef = ref => { this.MarkdownEditor = ref }
     render(){
     const  blogData  = this.props.blogData;
@@ -61,6 +90,25 @@ class Blog extends React.Component{
                 {/*    rows={4}*/}
                 {/*    defaultValue="Default Value"*/}
                 {/*    variant="outlined"*/}
+                {/*/>*/}
+                {this.state.tags.map((tagData) =>(
+                    <Chip
+                        // avatar={<Avatar>M</Avatar>}
+                        label={tagData.name}
+                        clickable
+                        color={tagData.color}
+                        // onDelete={handleDelete}
+                        // deleteIcon={<DoneIcon />}
+                    />
+
+                ))}
+                {/*<Chip*/}
+                {/*    avatar={<Avatar>M</Avatar>}*/}
+                {/*    label="Primary clickable"*/}
+                {/*    clickable*/}
+                {/*    color="primary"*/}
+                {/*    // onDelete={handleDelete}*/}
+                {/*    // deleteIcon={<DoneIcon />}*/}
                 {/*/>*/}
                 <Typography variant="h3" gutterBottom className={classes.title}>
                     {blogData.title}

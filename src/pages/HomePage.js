@@ -198,9 +198,31 @@ class HomePage extends React.Component{
                     },()=>console.log(this.state.blogsData))
             })
     }
+    getBlogsRedis(){
+        // const {pageNow,OrderMode,selectName,OrderBy,blogsMode}=this.state
+        // const userJwt = JSON.parse(localStorage.getItem("jwt"));
+
+        // console.log("page:",pageNow)
+        axios.get('redis/get'+'?key=1'
+            ,{
+
+
+            })
+            //.then(res =>JSON.stringify(res))
+            .then((body) => {
+
+                console.log(body.data.data)
+                if(body.data)
+                    this.setState({
+                        blogsData:body.data.data,
+                        gotData:true
+
+                    },()=>console.log(this.state.blogsData))
+            })
+    }
 
     componentDidMount(){
-        this.getBlogs()
+        this.getBlogsRedis()
 
     }
 

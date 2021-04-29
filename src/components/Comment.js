@@ -20,6 +20,12 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import FormControl from "@material-ui/core/FormControl";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = theme => ({
     paper: {
@@ -40,6 +46,10 @@ class CustomizedTimeline extends React.Component{
         this.state = {
             blogId:this.props.blogId,
             commentData:[],
+            newcommentValue:'',
+            commentGradeOpen:false,
+            commentGrade:0
+
         };
 
     }
@@ -51,11 +61,8 @@ class CustomizedTimeline extends React.Component{
     }
     getCommentByBlogId(){
         console.log(this.state.blogId)
-        axios.get('/comment?blogId='+this.state.blogId
-            ,{
-
-
-            })
+        axios.get('comment?blogId='+this.state.blogId
+            )
             .then((body) => {
                 console.log(body.data.data)
                 this.setState({
@@ -66,6 +73,14 @@ class CustomizedTimeline extends React.Component{
     setcommentValue=(event)=>{
         this.setState({newcommentValue:event.target.value});
     }
+    setcommentGrade=(event)=>{
+        this.setState({commentGrade:event.target.value},()=>console.log(this.state.commentGrade));
+
+    }
+    commentGradeOpenChange=(event)=>{
+        this.setState({commentGradeOpen:event.target.checked});
+    }
+
     submitComment(){
         const userJwt = JSON.parse(localStorage.getItem("jwt"));
         if (userJwt==null){
@@ -74,7 +89,8 @@ class CustomizedTimeline extends React.Component{
         else {
             axios.post('comment/add', {
                     blogId: this.state.blogId,
-                    content: this.state.newcommentValue
+                    content: this.state.newcommentValue,
+                    grade:this.state.commentGradeOpen?this.state.commentGrade:null,
                 }, {
                     headers: {
                         // 'content-type':'application/json',
@@ -145,6 +161,26 @@ class CustomizedTimeline extends React.Component{
                 onChange={this.setcommentValue}
 
             />
+            <FormControl component="fieldset">
+                <FormLabel component="legend">Grade</FormLabel>
+                <Switch
+                    checked={this.state.commentGradeOpen}
+                    onChange={this.commentGradeOpenChange}
+                    name="Add Grade"
+                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />
+                <RadioGroup aria-label="Grade" name="Grade" value={this.state.commentGrade} onChange={this.setcommentGrade}>
+                    <FormControlLabel disabled={!this.state.commentGradeOpen} value="2" control={<Radio />} label="Excellent" />
+                    <FormControlLabel disabled={!this.state.commentGradeOpen} value="1" control={<Radio />} label="Good" />
+                    <FormControlLabel disabled={!this.state.commentGradeOpen} value="0" control={<Radio />} label="Fair" />
+                    <FormControlLabel disabled={!this.state.commentGradeOpen} value="-1" control={<Radio />} label="Limited" />
+                    <FormControlLabel disabled={!this.state.commentGradeOpen} value="-2" control={<Radio />} label="Weak" />
+                </RadioGroup>
+
+
+
+
+            </FormControl>
         </Grid>
         <Button onClick={this.submitComment.bind(this)}>提交评论</Button>
             </Grid>

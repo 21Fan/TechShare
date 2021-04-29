@@ -203,8 +203,8 @@ class BlogPage extends React.Component{
                     {/*</Typography>*/}
                     {/*<RecipeReviewCard/>*/}
 
-                    <Grid container spacing={0}>
-                        <Grid xs
+                    <Grid container spacing={2}>
+                        <Grid xs item
                               // alignItems="center"
                         >
 
@@ -214,11 +214,11 @@ class BlogPage extends React.Component{
 
 
                         </Grid>
-                        <Grid xs={1}>
+                        <Grid xs={1} item>
                             <SpeedDials id={id}/>
                         </Grid>
 
-                        <Grid xs={3} className={classes.sidebarDesktop}>
+                        <Grid item xs={3} className={classes.sidebarDesktop}>
                             <Sidebar
                                 title={sidebarValue.title}
                                 description={sidebarValue.description}

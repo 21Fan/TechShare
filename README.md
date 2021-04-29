@@ -1,3 +1,5 @@
+npm start
+
 #To be finished
 getItem:if user have not signed in 
 # Create React App example

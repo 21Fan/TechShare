@@ -26,7 +26,8 @@ export default class AxiosInterceptors extends React.Component {
         this.setState({open:false})
     };
     componentWillMount() {
-        axios.defaults.baseURL='http://localhost:8081'
+        axios.defaults.baseURL='http://localhost:8081'//上线
+        // axios.defaults.baseURL='http://1.15.141.72:8081'//上线
         axios.interceptors.request.use(config => {
             console.log("前置拦截")
             //config.headers
